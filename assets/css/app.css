@@ -1,3 +1,8 @@
-body {
-    background-color: lightgray;
+@import "sb-admin.css";
+
+.mark-wrapper {
+    width: 200px;
+}
+.file {
+    font-size: 30px;
 }
