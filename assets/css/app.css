@@ -1,8 +1,7 @@
+@import "~datatables.net-dt/css/jquery.dataTables.min.css";
+@import "~font-awesome";
 @import "sb-admin.css";
 
-.mark-wrapper {
-    width: 200px;
-}
-.file {
-    font-size: 30px;
+.table-bordered {
+    border: 1px solid #dee2e6!important;
 }

@@ -13,6 +13,7 @@ import '../css/app.css';
 // import $ from 'jquery';
 const $ = require('jquery');
 require('bootstrap');
+require('datatables.net-dt');
 
 $(function() {
     "use strict";
@@ -35,6 +36,24 @@ $(function() {
         e.preventDefault();
         $("body").toggleClass("sb-sidenav-toggled");
     });
+
+    $(document).ready(function () {
+        $('#suppliersTable').DataTable({
+            "language": {
+                "paginate": {
+                    "next": "<i class='fa fa-arrow-right' aria-hidden='true'></i>",
+                    "previous": "<i class='fa fa-arrow-left' aria-hidden='true'></i>"
+                },
+                "search": "Поиск"
+            }
+        } );
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+    $('.delete-object-btn').on('click', function () {
+        return confirm("Вы уверены, что хотите удалить объект?");
+    });
+
 });
 
 

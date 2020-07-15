@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Поставщики{% endblock %}
+
+{% block body %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div>
+          <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseSupplierCard"
+                  aria-expanded="false">
+            Карточка поставщика
+          </button>
+          <a href="{{ path('supplier_edit', {id: supplier.id}) }}" class="btn btn-warning" data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </a>
+          <a href="{{ path('supplier_delete', {id: supplier.id}) }}" class="btn btn-danger delete-object-btn">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a>
+        </div>
+        <div class="collapse" id="collapseSupplierCard">
+            <table class="table table-bordered table-sm" cellspacing="0" width="100%">
+              <thead>
+              <tr>
+                <th class="th-sm">Наименование</th>
+                <th>{{ supplier.name }}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Телефон</td>
+                <td>{{ supplier.phone }}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>{{ supplier.email }}</td>
+              </tr>
+              <tr>
+                <td>Сайт</td>
+                <td>{{ supplier.site }}</td>
+              </tr>
+              <tr>
+                <td>Регион</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Адрес</td>
+                <td>{{ supplier.address }}</td>
+              </tr>
+              <tr>
+                <td>Расстояние</td>
+                <td>{{ supplier.distance }}</td>
+              </tr>
+              <tr>
+                <td>Реквизиты</td>
+                <td>{{ supplier.requisites }}</td>
+              </tr>
+              <tr>
+                <td>Примечание</td>
+                <td>{{ supplier.comment }}</td>
+              </tr>
+              <tr>
+                <td>Дата</td>
+                <td>-</td>
+              </tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
