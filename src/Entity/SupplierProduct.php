@@ -23,6 +23,11 @@ class SupplierProduct
     private $supplier;
 
     /**
+     * @ORM\Column(type="date", nullable=false)
+     */
+    private $date;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $name;
@@ -66,6 +71,11 @@ class SupplierProduct
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
+
+    public function __construct()
+    {
+        $this->setDate(new \DateTime());
+    }
 
     public function getId(): ?int
     {
@@ -188,6 +198,18 @@ class SupplierProduct
     public function setSupplier(?Supplier $supplier): self
     {
         $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }
