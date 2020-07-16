@@ -5,3 +5,13 @@
 .table-bordered {
     border: 1px solid #dee2e6!important;
 }
+
+.table-vertical th:first-child{
+    text-align: right;
+    vertical-align: middle;
+}
+.table-vertical td:first-child{
+    width: 25%;
+    text-align: right;
+    vertical-align: middle;
+}

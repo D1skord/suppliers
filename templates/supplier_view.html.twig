@@ -5,68 +5,149 @@
 {% block body %}
 
   <div class="container">
-    <div class="row">
+    <div class="row pt-3">
+      <div class="col-sm-12 text-center">
+        <h1>{{ supplier.name }}</h1>
+      </div>
+    </div>
+    <div class="row pt-3">
       <div class="col-sm-12">
-        <div>
+        <div class="d-flex justify-content-center">
           <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseSupplierCard"
                   aria-expanded="false">
             Карточка поставщика
           </button>
-          <a href="{{ path('supplier_edit', {id: supplier.id}) }}" class="btn btn-warning" data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
+          <a href="{{ path('supplier_edit', {id: supplier.id}) }}" class="btn btn-warning ml-1"
+             data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
-          <a href="{{ path('supplier_delete', {id: supplier.id}) }}" class="btn btn-danger delete-object-btn">
+          <a href="{{ path('supplier_delete', {id: supplier.id}) }}" class="btn btn-danger delete-object-btn ml-1">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>
         </div>
-        <div class="collapse" id="collapseSupplierCard">
-            <table class="table table-bordered table-sm" cellspacing="0" width="100%">
-              <thead>
+        <div class="collapse mt-2" id="collapseSupplierCard">
+          <table class="table table-bordered table-sm table-hover table-vertical" cellspacing="0" width="100%">
+            <thead class="thead-dark">
+            <tr>
+              <th class="th-sm">Наименование</th>
+              <th>{{ supplier.name }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Телефон</td>
+              <td>{{ supplier.phone }}</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>{{ supplier.email }}</td>
+            </tr>
+            <tr>
+              <td>Сайт</td>
+              <td>{{ supplier.site }}</td>
+            </tr>
+            <tr>
+              <td>Регион</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Адрес</td>
+              <td>{{ supplier.address }}</td>
+            </tr>
+            <tr>
+              <td>Расстояние</td>
+              <td>{{ supplier.distance }}</td>
+            </tr>
+            <tr>
+              <td>Реквизиты</td>
+              <td>{{ supplier.requisites }}</td>
+            </tr>
+            <tr>
+              <td>Примечание</td>
+              <td>{{ supplier.comment }}</td>
+            </tr>
+            <tr>
+              <td>Дата</td>
+              <td>-</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-3">
+      <div class="col-sm-12">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseSupplierStaffers"
+                  aria-expanded="false">
+            Контактные лица
+          </button>
+          <a href="#" data-toggle="modal" data-target="#addSupplierStafferModal" class="btn btn-success ml-1">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          </a>
+        </div>
+        <div class="collapse mt-2" id="collapseSupplierStaffers">
+          {% for staffer in supplier.staffers %}
+            <table class="table table-bordered table-sm table-hover table-vertical" cellspacing="0" width="100%">
+              <thead class="thead-dark">
               <tr>
-                <th class="th-sm">Наименование</th>
-                <th>{{ supplier.name }}</th>
+                <th>{{ staffer.name }}</th>
+                <th>
+                  <a href="{{ path('supplier_staffer_edit', {'supplierId': supplier.id, 'stafferId': staffer.id}) }}" class="btn btn-sm btn-warning ml-1"
+                     data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </a>
+                  <a href="{{ path('supplier_delete', {id: supplier.id}) }}" class="btn btn-sm btn-danger delete-object-btn ml-1">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a>
+
+                </th>
               </tr>
               </thead>
               <tbody>
               <tr>
                 <td>Телефон</td>
-                <td>{{ supplier.phone }}</td>
+                <td>{{ staffer.phone }}</td>
+              </tr>
+              <tr>
+                <td>Должность</td>
+                <td>{{ staffer.position }}</td>
               </tr>
               <tr>
                 <td>Email</td>
-                <td>{{ supplier.email }}</td>
+                <td>{{ staffer.email }}</td>
               </tr>
-              <tr>
-                <td>Сайт</td>
-                <td>{{ supplier.site }}</td>
-              </tr>
-              <tr>
-                <td>Регион</td>
-                <td>-</td>
-              </tr>
-              <tr>
-                <td>Адрес</td>
-                <td>{{ supplier.address }}</td>
-              </tr>
-              <tr>
-                <td>Расстояние</td>
-                <td>{{ supplier.distance }}</td>
-              </tr>
-              <tr>
-                <td>Реквизиты</td>
-                <td>{{ supplier.requisites }}</td>
-              </tr>
-              <tr>
                 <td>Примечание</td>
-                <td>{{ supplier.comment }}</td>
-              </tr>
-              <tr>
-                <td>Дата</td>
-                <td>-</td>
+                <td>{{ staffer.comment }}</td>
               </tr>
               </tbody>
             </table>
+          {% endfor %}
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addSupplierStafferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Добавление контактного лица</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {{ form_start(addSupplierStufferForm) }}
+        <div class="modal-body">
+          {{ form_widget(addSupplierStufferForm) }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-success">Добавить</button>
+        </div>
+        {{ form_end(addSupplierStufferForm) }}
       </div>
     </div>
   </div>

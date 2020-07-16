@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -17,6 +19,11 @@ class Supplier
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="SupplierStaffer", mappedBy="supplier", cascade={"persist", "remove"})
+     */
+    private $staffers;
 
     /**
      * @ORM\Column(type="string")
@@ -57,6 +64,11 @@ class Supplier
      * @ORM\Column(type="text")
      */
     private $comment;
+
+    public function __construct()
+    {
+        $this->staffers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -157,5 +169,47 @@ class Supplier
         $this->comment = $comment;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|SupplierStaffer[]
+     */
+    public function getStaffers(): Collection
+    {
+        return $this->staffers;
+    }
+
+    public function addStaffer(SupplierStaffer $staffer): self
+    {
+        if (!$this->staffers->contains($staffer)) {
+            $this->staffers[] = $staffer;
+            $staffer->setSupplier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStaffer(SupplierStaffer $staffer): self
+    {
+        if ($this->staffers->contains($staffer)) {
+            $this->staffers->removeElement($staffer);
+            // set the owning side to null (unless already changed)
+            if ($staffer->getSupplier() === $this) {
+                $staffer->setSupplier(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStaffer($id)
+    {
+        foreach ($this->staffers as $staffer) {
+            if ($staffer->getId() == $id) {
+                return $staffer;
+            }
+        }
+
+        return null;
     }
 }

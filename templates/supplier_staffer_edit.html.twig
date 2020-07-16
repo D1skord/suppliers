@@ -1,24 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Рдеактирование поставщика{% endblock %}
+{% block title %}Редактирование контактного лица{% endblock %}
 
 {% block body %}
   <div class="container">
     <div class="row">
       <div class="col-sm-8">
-        <h1>Редактирвоание поставщика</h1>
+        <h1>Редактирвоание контактного лица поставщика {{ supplier.name }}</h1>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-8">
-        {{ form_start(editSupplierForm) }}
-        {{ form_widget(editSupplierForm) }}
+        {{ form_start(editSupplierStafferForm) }}
+        {{ form_widget(editSupplierStafferForm) }}
 
         <div class="form-group text-right">
           <a href="{{ path('supplier_view', {id: supplier.id}) }}" class="btn btn-light">Отмена</a>
           <button type="submit" class="btn btn-success">Сохранить</button>
         </div>
-        {{ form_end(editSupplierForm) }}
+        {{ form_end(editSupplierStafferForm) }}
       </div>
     </div>
   </div>
