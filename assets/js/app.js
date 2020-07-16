@@ -8,12 +8,14 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import '../css/app.css';
 
-
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 const $ = require('jquery');
 require('bootstrap');
 require('datatables.net-dt');
+require('inputmask/dist/jquery.inputmask');
+
+
 
 $(function() {
     "use strict";
@@ -53,6 +55,9 @@ $(function() {
     $('.delete-object-btn').on('click', function () {
         return confirm("Вы уверены, что хотите удалить объект?");
     });
+
+    // Маска для input с телефоном
+    $('.phone-mask').inputmask({"mask": "+7 (999) 999-99-99"});
 
 });
 

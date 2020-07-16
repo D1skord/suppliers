@@ -4,9 +4,7 @@ namespace App\Form;
 
 use App\Entity\Supplier;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,17 +27,20 @@ class AddSupplierFormType extends AbstractType
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Телефон',
+                'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
                 ],
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control phone-mask'
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'required' => true,
                 'row_attr' => [
-                    'class' => 'form-group'
+                    'class' => 'form-group',
+                    'type' => 'email'
                 ],
                 'attr' => [
                     'class' => 'form-control'
@@ -47,6 +48,7 @@ class AddSupplierFormType extends AbstractType
             ])
             ->add('site', TextType::class, [
                 'label' => 'Сайт',
+                'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
                 ],
@@ -56,6 +58,7 @@ class AddSupplierFormType extends AbstractType
             ])
             ->add('address', TextType::class, [
                 'label' => 'Адрес',
+                'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
                 ],
@@ -65,6 +68,7 @@ class AddSupplierFormType extends AbstractType
             ])
             ->add('distance', TextType::class, [
                 'label' => 'Расстояние',
+                'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
                 ],
@@ -74,6 +78,7 @@ class AddSupplierFormType extends AbstractType
             ])
             ->add('requisites', TextareaType::class, [
                 'label' => 'Реквизиты',
+                'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
                 ],
@@ -84,6 +89,7 @@ class AddSupplierFormType extends AbstractType
             ])
             ->add('comment', TextareaType::class, [
                 'label' => 'Примечание',
+                'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
                 ],

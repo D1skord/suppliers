@@ -4,14 +4,13 @@ namespace App\Form;
 
 use App\Entity\SupplierStaffer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddSupplierStufferFormType extends AbstractType
+class AddSupplierProductFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,29 +25,68 @@ class AddSupplierStufferFormType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('phone', TelType::class, [
-                'label' => 'Телефон',
+            ->add('height', TextType::class, [
+                'label' => 'Высота',
                 'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
                 ],
                 'attr' => [
-                    'class' => 'form-control phone-mask'
+                    'class' => 'form-control'
                 ]
             ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'required' => true,
+            ->add('price', TelType::class, [
+                'label' => 'Цена',
+                'required' => false,
                 'row_attr' => [
-                    'class' => 'form-group',
-                    'type' => 'email'
+                    'class' => 'form-group'
                 ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
             ])
-            ->add('position', TextType::class, [
-                'label' => 'Должность',
+            ->add('countMin', TextType::class, [
+                'label' => 'Мин. кол-во',
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'form-group'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('countMax', TextType::class, [
+                'label' => 'Макс. кол-во',
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'form-group'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('diameterBarrel', TextType::class, [
+                'label' => 'Диаметр ствола',
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'form-group'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('diameterCrown', TextType::class, [
+                'label' => 'Диаметр кроны',
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'form-group'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('diameterComa', TextType::class, [
+                'label' => 'Диаметр земляного кома',
                 'required' => false,
                 'row_attr' => [
                     'class' => 'form-group'
