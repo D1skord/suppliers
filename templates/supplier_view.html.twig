@@ -26,7 +26,7 @@
           </a>
         </div>
         <div class="collapse mt-2" id="collapseSupplierCard">
-          <table class="table table-bordered table-sm table-hover table-vertical" cellspacing="0" width="100%">
+          <table class="table table-bordered table-sm table-hover table-vertical table-responsive-lg" cellspacing="0" width="100%">
             <thead class="thead-dark">
             <tr>
               <th class="th-sm">Наименование</th>
@@ -88,16 +88,18 @@
         </div>
         <div class="collapse mt-2" id="collapseSupplierStaffers">
           {% for staffer in supplier.staffers %}
-            <table class="table table-bordered table-sm table-hover table-vertical" cellspacing="0" width="100%">
+            <table class="table table-bordered table-sm table-hover table-vertical table-responsive-lg" cellspacing="0" width="100%">
               <thead class="thead-dark">
               <tr>
                 <th>{{ staffer.name }}</th>
                 <th>
-                  <a href="{{ path('supplier_staffer_edit', {'supplierId': supplier.id, 'stafferId': staffer.id}) }}" class="btn btn-sm btn-warning ml-1"
+                  <a href="{{ path('supplier_staffer_edit', {'supplierId': supplier.id, 'stafferId': staffer.id}) }}"
+                     class="btn btn-sm btn-warning ml-1"
                      data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                   </a>
-                  <a href="{{ path('supplier_delete', {id: supplier.id}) }}" class="btn btn-sm btn-danger delete-object-btn ml-1">
+                  <a href="{{ path('supplier_delete', {id: supplier.id}) }}"
+                     class="btn btn-sm btn-danger delete-object-btn ml-1">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </a>
 
@@ -117,8 +119,8 @@
                 <td>Email</td>
                 <td>{{ staffer.email }}</td>
               </tr>
-                <td>Примечание</td>
-                <td>{{ staffer.comment }}</td>
+              <td>Примечание</td>
+              <td>{{ staffer.comment }}</td>
               </tr>
               </tbody>
             </table>
@@ -126,9 +128,79 @@
         </div>
       </div>
     </div>
+    <div class="row pt-3">
+      <div class="col-sm-12">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseSupplierProducts"
+                  >
+            Товары
+          </button>
+          <a href="#" data-toggle="modal" data-target="#addSupplierProductModal" class="btn btn-success ml-1">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          </a>
+        </div>
+        <div class="collapse show mt-2" id="collapseSupplierProducts">
+          <table id="productsTable" class="table table-bordered table-sm table-hover table-responsive-lg" cellspacing="0" width="100%">
+            <thead class="thead-dark">
+            <tr>
+              <th class="sorting_disabled">-</th>
+              <th>Наименование</th>
+              <th>Обновлен</th>
+              <th>Выс.</th>
+              <th>Цена</th>
+              <th>Мин.</th>
+              <th>Макс.</th>
+              <th>Параметры</th>
+              <th>Примечание</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in supplier.products %}
+              <tr>
+                <td>
+                  <div class="d-flex">
+                    <a href="{{ path('supplier_product_edit', {'supplierId': supplier.id, 'productId': product.id}) }}"
+                       class="btn btn-sm btn-warning ml-1"
+                       data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{ path('supplier_product_delete', {id: product.id}) }}"
+                       class="btn btn-sm btn-danger delete-object-btn ml-1">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                  </div>
+
+                </td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.date|date("d.m.Y") }}</td>
+                <td>{{ product.height }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.countMin }}</td>
+                <td>{{ product.countMax }}</td>
+
+                <td>
+                  {% if product.diameterBarrel is not empty %}
+                    <p>Диаметр ствола {{ product.diameterBarrel }}</p>
+                  {% endif %}
+                  {% if product.diameterCrown is not empty %}
+                    <p>Диаметр кроны {{ product.diameterCrown }}</p>
+                  {% endif %}
+                  {% if product.diameterComa is not empty %}
+                    <p>Диаметр земляного кома {{ product.diameterComa }}</p>
+                  {% endif %}
+                </td>
+                <td>{{ product.comment }}</td>
+              </tr>
+            {% endfor %}
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Add staffer modal -->
   <div class="modal fade" id="addSupplierStafferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
        aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -148,6 +220,30 @@
           <button type="submit" class="btn btn-success">Добавить</button>
         </div>
         {{ form_end(addSupplierStufferForm) }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Add product modal -->
+  <div class="modal fade" id="addSupplierProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Добавление продукта</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {{ form_start(addSupplierProductForm) }}
+        <div class="modal-body">
+          {{ form_widget(addSupplierProductForm) }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-success">Добавить</button>
+        </div>
+        {{ form_end(addSupplierProductForm) }}
       </div>
     </div>
   </div>

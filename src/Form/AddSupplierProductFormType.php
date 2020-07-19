@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\SupplierProduct;
 use App\Entity\SupplierStaffer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -112,7 +113,7 @@ class AddSupplierProductFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SupplierStaffer::class,
+            'data_class' => SupplierProduct::class,
         ]);
     }
 }

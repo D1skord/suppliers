@@ -12,17 +12,17 @@ import '../css/app.css';
 // import $ from 'jquery';
 const $ = require('jquery');
 require('bootstrap');
-require('datatables.net-dt');
+require('datatables.net');
 require('inputmask/dist/jquery.inputmask');
 
 
 
-$(function() {
+$(function () {
     "use strict";
 
     // Add active state to sidbar nav links
     var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
-    $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
+    $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function () {
         if (this.href === path) {
             $(this).addClass("active");
             $(this).parent().parent().addClass("show");
@@ -34,24 +34,81 @@ $(function() {
     });
 
     // Toggle the side navigation
-    $("#sidebarToggle").on("click", function(e) {
+    $("#sidebarToggle").on("click", function (e) {
         e.preventDefault();
         $("body").toggleClass("sb-sidenav-toggled");
     });
 
+    /* DataTable */
+    let dataTableLang = {
+        "aria": {
+            "SortAscending": ": activate to sort column ascending",
+            "SortDescending": ": activate to sort column descending"
+        },
+        "paginate": {
+            "first": "Первая",
+            "last": "Последняя",
+            "next": "Следующая",
+            "previous": "Предыдущая"
+        },
+        "emptyTable": "Нет данных",
+        "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+        "infoEmpty": "",
+        "infoFiltered": "(общее количество: _MAX_)",
+        "lengthMenu": "Показывать _MENU_ записей",
+        "loadingRecords": "Загрузка...",
+        "processing": "Обработка...",
+        "search": "Поиск:",
+        "zeroRecords": "Данные не найдены"
+    };
+
+    // Таблица поставщиков
     $(document).ready(function () {
         $('#suppliersTable').DataTable({
-            "language": {
-                "paginate": {
-                    "next": "<i class='fa fa-arrow-right' aria-hidden='true'></i>",
-                    "previous": "<i class='fa fa-arrow-left' aria-hidden='true'></i>"
-                },
-                "search": "Поиск"
-            }
-        } );
+            "language": dataTableLang,
+            "bFilter": true,
+            "oSearch": {"bSmart": false, "bRegex": true},
+            "aoColumns": [
+                {"mData": "name", "bSortable": false},
+                null,
+                null,
+                null,
+                null,
+            ],
+            columnDefs: [
+                {orderable: false, sortable: false, targets: [0, 1, 2, 3]}
+            ]
+        });
         $('.dataTables_length').addClass('bs-select');
     });
 
+    // Таблица товаров
+    $(document).ready(function () {
+        $('#productsTable').DataTable({
+            "language": dataTableLang,
+            "bFilter": true,
+            "oSearch": {"bSmart": false, "bRegex": true},
+            "aoColumns": [
+                null,
+                {"mData": "name", "bSortable": false},
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            ],
+            columnDefs: [
+                {orderable: false, sortable: false, targets: [0, 1, 7, 8]}
+            ]
+
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+    /* /DataTable */
+
+    // Спрашивать перед удалением
     $('.delete-object-btn').on('click', function () {
         return confirm("Вы уверены, что хотите удалить объект?");
     });

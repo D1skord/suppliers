@@ -219,6 +219,17 @@ class Supplier
         return null;
     }
 
+    public function getProduct($id)
+    {
+        foreach ($this->products as $product) {
+            if ($product->getId() == $id) {
+                return $product;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @return Collection|SupplierProduct[]
      */
