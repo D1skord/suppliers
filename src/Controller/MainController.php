@@ -70,8 +70,10 @@ class MainController extends AbstractController
             );
         }
 
+        $suppliers = $this->getDoctrine()->getRepository(Supplier::class)->findAll();
+
         return $this->render(
-            'supplier_list.html.twig',
+            'supplier/list.html.twig',
             [
                 'addSupplierForm' => $addSupplierForm->createView(),
                 'suppliers' => $suppliers
@@ -111,7 +113,7 @@ class MainController extends AbstractController
         }
 
         return $this->render(
-            'supplier_edit.html.twig',
+            'edit.html.twig',
             [
                 'editSupplierForm' => $editSupplierForm->createView(),
                 'supplier' => $supplier
@@ -195,7 +197,7 @@ class MainController extends AbstractController
         }
 
         return $this->render(
-            'supplier_view.html.twig',
+            'supplier/view.html.twig',
             [
                 'supplier' => $supplier,
                 'addSupplierStufferForm' => $addSupplierStufferForm->createView(),
@@ -236,7 +238,7 @@ class MainController extends AbstractController
         }
 
         return $this->render(
-            'supplier_staffer_edit.html.twig',
+            'edit.html.twig',
             [
                 'editSupplierStafferForm' => $editSupplierStafferForm->createView(),
                 'supplier' => $supplier,
@@ -275,77 +277,7 @@ class MainController extends AbstractController
         ]);
     }
 
-    /**
-     * Страница редактирования товара
-     *
-     * @param Request $request
-     * @param int $supplierId
-     * @param int $productId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/suppliers/{supplierId}/product/{productId}/edit", name="supplier_product_edit")
-     */
-    public function supplierProductEdit(Request $request, int $supplierId, int $productId)
-    {
-        $supplier = $this->getDoctrine()->getRepository(Supplier::class)->find($supplierId);
-        $product = $supplier->getProduct($productId);
 
-        $editSupplierProductForm = $this->createForm(AddSupplierProductFormType::class, $product);
-        $editSupplierProductForm->handleRequest($request);
-
-        if ($editSupplierProductForm->isSubmitted() && $editSupplierProductForm->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($supplier);
-            $entityManager->flush();
-
-            $this->addFlash(
-                'success',
-                'Товар изменен!'
-            );
-            return $this->redirectToRoute('supplier_view', [
-                'id' => $supplierId
-            ]);
-        }
-
-        return $this->render(
-            'supplier_product_edit.html.twig',
-            [
-                'editSupplierProductForm' => $editSupplierProductForm->createView(),
-                'supplier' => $supplier,
-                'product' => $product,
-            ]
-        );
-    }
-
-    /**
-     * Удаление товара
-     *
-     * @param Request $request
-     * @param int $id - id товара
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     *
-     * @Route("/product/{id}/delete", name="supplier_product_delete")
-     */
-    public function supplierProductRemove(Request $request, int $id)
-    {
-        $product = $this->getDoctrine()->getRepository(SupplierProduct::class)->find($id);
-
-        $supplier = $product->getSupplier();
-        $supplier->removeProduct($product);
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($supplier);
-        $entityManager->flush();
-
-        $this->addFlash(
-            'success',
-            'Товар удален!'
-        );
-
-        return $this->redirectToRoute('supplier_view', [
-            'id' => $supplier->getId()
-        ]);
-    }
 
     /**
      * Страница товаров

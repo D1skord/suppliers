@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Рдеактирование корневой системы{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+        <h1>Редактирвоание корневой системы</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        {{ form_start(editRootForm) }}
+        {{ form_widget(editRootForm) }}
+
+        <div class="form-group text-right">
+          <a href="{{ path('product_root_list')}}" class="btn btn-light">Отмена</a>
+          <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
+        {{ form_end(editRootForm) }}
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

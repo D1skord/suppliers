@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\SupplierProduct;
+use App\Entity\SupplierProductRoot;
 use App\Entity\SupplierStaffer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,6 +23,29 @@ class AddSupplierProductFormType extends AbstractType
                 'required' => true,
                 'row_attr' => [
                     'class' => 'form-group'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('root', EntityType::class, [
+                'label' => 'Заведение',
+                'required' => true,
+                'class' => SupplierProductRoot::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Не выбрано',
+                'row_attr' => [
+                    'class' => 'form-group'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('containerSize', TextType::class, [
+                'label' => 'Размер контейнера',
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'form-group d-none'
                 ],
                 'attr' => [
                     'class' => 'form-control'

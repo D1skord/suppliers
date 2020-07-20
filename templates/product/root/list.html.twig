@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Корневые системы{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Список корневых систем</h1>
+      </div>
+    </div>
+    <div class="row py-3">
+      <div class="col-sm-12">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRootModal">
+          Добавить
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <table class="table table-bordered table-sm table-hover table-responsive-lg" cellspacing="0"
+               width="100%">
+          <thead class="thead-dark">
+          <tr>
+            <th class="th-sm"></th>
+            <th class="th-sm">Наименование</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for root in roots %}
+            <tr>
+              <td>
+                <div class="d-flex">
+                  <a href="{{ path('product_root_edit', {'id': root.id}) }}"
+                     class="btn btn-sm btn-warning ml-1">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </a>
+                  <a href="{{ path('product_root_delete', {id: root.id}) }}"
+                     class="btn btn-sm btn-danger delete-object-btn ml-1">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a>
+                </div>
+
+              </td>
+              <td class="w-100">{{ root.name }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="addRootModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Добавление корневой системы</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {{ form_start(addRootForm) }}
+        <div class="modal-body">
+          {{ form_widget(addRootForm) }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-success">Добавить</button>
+        </div>
+        {{ form_end(addRootForm) }}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -140,61 +140,7 @@
           </a>
         </div>
         <div class="collapse show mt-2" id="collapseSupplierProducts">
-          <table id="productsTable" class="table table-bordered table-sm table-hover table-responsive-lg" cellspacing="0" width="100%">
-            <thead class="thead-dark">
-            <tr>
-              <th class="sorting_disabled">-</th>
-              <th>Наименование</th>
-              <th>Обновлен</th>
-              <th>Выс.</th>
-              <th>Цена</th>
-              <th>Мин.</th>
-              <th>Макс.</th>
-              <th>Параметры</th>
-              <th>Примечание</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for product in supplier.products %}
-              <tr>
-                <td>
-                  <div class="d-flex">
-                    <a href="{{ path('supplier_product_edit', {'supplierId': supplier.id, 'productId': product.id}) }}"
-                       class="btn btn-sm btn-warning ml-1"
-                       data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
-                      <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                    <a href="{{ path('supplier_product_delete', {id: product.id}) }}"
-                       class="btn btn-sm btn-danger delete-object-btn ml-1">
-                      <i class="fa fa-trash" aria-hidden="true"></i>
-                    </a>
-                  </div>
-
-                </td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.date|date("d.m.Y") }}</td>
-                <td>{{ product.height }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.countMin }}</td>
-                <td>{{ product.countMax }}</td>
-
-                <td>
-                  {% if product.diameterBarrel is not empty %}
-                    <p>Диаметр ствола {{ product.diameterBarrel }}</p>
-                  {% endif %}
-                  {% if product.diameterCrown is not empty %}
-                    <p>Диаметр кроны {{ product.diameterCrown }}</p>
-                  {% endif %}
-                  {% if product.diameterComa is not empty %}
-                    <p>Диаметр земляного кома {{ product.diameterComa }}</p>
-                  {% endif %}
-                </td>
-                <td>{{ product.comment }}</td>
-              </tr>
-            {% endfor %}
-            </tr>
-            </tbody>
-          </table>
+          {{ include('product/list_block.html.twig')}}
         </div>
       </div>
     </div>

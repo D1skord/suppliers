@@ -1,0 +1,193 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Supplier;
+use App\Entity\SupplierProduct;
+use App\Entity\SupplierProductRoot;
+use App\Entity\SupplierStaffer;
+use App\Form\AddProductRootFormType;
+use App\Form\AddSupplierFormType;
+use App\Form\AddSupplierProductFormType;
+use App\Form\AddSupplierStufferFormType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+class ProductController extends AbstractController
+{
+    /**
+     * Страница редактирования товара
+     *
+     * @param Request $request
+     * @param int $supplierId
+     * @param int $productId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/suppliers/{supplierId}/product/{productId}/edit", name="supplier_product_edit")
+     */
+    public function edit(Request $request, int $supplierId, int $productId)
+    {
+        $supplier = $this->getDoctrine()->getRepository(Supplier::class)->find($supplierId);
+        $product = $supplier->getProduct($productId);
+
+        $editSupplierProductForm = $this->createForm(AddSupplierProductFormType::class, $product);
+        $editSupplierProductForm->handleRequest($request);
+
+        if ($editSupplierProductForm->isSubmitted() && $editSupplierProductForm->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($supplier);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Товар изменен!'
+            );
+            return $this->redirectToRoute('supplier_view', [
+                'id' => $supplierId
+            ]);
+        }
+
+        return $this->render(
+            'product/edit.html.twig',
+            [
+                'editSupplierProductForm' => $editSupplierProductForm->createView(),
+                'supplier' => $supplier,
+                'product' => $product,
+            ]
+        );
+    }
+
+    /**
+     * Удаление товара
+     *
+     * @param Request $request
+     * @param int $id - id товара
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/product/{id}/delete", name="supplier_product_delete")
+     */
+    public function remove(Request $request, int $id)
+    {
+        $product = $this->getDoctrine()->getRepository(SupplierProduct::class)->find($id);
+
+        $supplier = $product->getSupplier();
+        $supplier->removeProduct($product);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($supplier);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Товар удален!'
+        );
+
+        return $this->redirectToRoute('supplier_view', [
+            'id' => $supplier->getId()
+        ]);
+    }
+
+
+    /**
+     * Страница корневых систем
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/products/product-root", name="product_root_list")
+     */
+    public function rootList(Request $request, ValidatorInterface $validator)
+    {
+        $root = new SupplierProductRoot();
+        $addRootForm = $this->createForm(AddProductRootFormType::class, $root);
+        $addRootForm->handleRequest($request);
+
+        if ($addRootForm->isSubmitted() && $addRootForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($root);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Корневая система добавлена!'
+            );
+
+        }
+
+        $roots = $this->getDoctrine()->getRepository(SupplierProductRoot::class)->findAll();
+
+        return $this->render(
+            'product/root/list.html.twig',
+            [
+                'addRootForm' => $addRootForm->createView(),
+                'roots' => $roots
+            ]
+        );
+    }
+
+    /**
+     * Страница редактирования корневой системы
+     *
+     * @param Request $request
+     * @param int $id - id корневой системы
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/products/product-root/{id}/edit", name="product_root_edit")
+     */
+    public function rootEdit(Request $request, int $id)
+    {
+        $root = $this->getDoctrine()->getRepository(SupplierProductRoot::class)->find($id);
+
+        $editRootForm = $this->createForm(AddProductRootFormType::class, $root);
+        $editRootForm->handleRequest($request);
+
+        if ($editRootForm->isSubmitted() && $editRootForm->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($root);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Корневая система изменена!'
+            );
+            return $this->redirectToRoute('product_root_list');
+        }
+
+        return $this->render(
+            'product/root/edit.html.twig',
+            [
+                'editRootForm' => $editRootForm->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Удаление корневой системы
+     *
+     * @param Request $request
+     * @param int $id - id корневой системы
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/products/product-root/{id}/delete", name="product_root_delete")
+     */
+    public function rootRemove(Request $request, int $id)
+    {
+        $root = $this->getDoctrine()->getRepository(SupplierProductRoot::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($root);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Корневая система удалена!'
+        );
+
+        return $this->redirectToRoute('product_root_list');
+    }
+
+}

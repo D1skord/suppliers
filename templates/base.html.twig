@@ -9,7 +9,7 @@
     {{ encore_entry_link_tags('app') }}
   {% endblock %}
 </head>
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed sb-sidenav-toggled">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
   <a class="navbar-brand" href="/">Suppliers</a>
   <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fa fa-bars"></i>
@@ -57,7 +57,12 @@
             <div class="sb-nav-link-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
             Поставщики
           </a>
-
+          <a class="nav-link" href="{{ path('product_root_list') }}">
+            <div class="sb-nav-link-icon">
+              <i class="fa fa-tree" aria-hidden="true"></i>
+            </div>
+            Корневые системы
+          </a>
         </div>
       </div>
       <div class="sb-sidenav-footer">

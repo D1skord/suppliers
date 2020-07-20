@@ -89,15 +89,16 @@ $(function () {
             "bFilter": true,
             "oSearch": {"bSmart": false, "bRegex": true},
             "aoColumns": [
-                null,
-                {"mData": "name", "bSortable": false},
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
+                { "bSearchable": false },
+                {"sType": "html"},
+                {"sType": "html"},
+                { "bSearchable": false },
+                { "bSearchable": false },
+                { "bSearchable": false },
+                { "bSearchable": false },
+                { "bSearchable": false },
+                { "bSearchable": false },
+                { "bSearchable": false },
             ],
             columnDefs: [
                 {orderable: false, sortable: false, targets: [0, 1, 7, 8]}
@@ -116,6 +117,10 @@ $(function () {
     // Маска для input с телефоном
     $('.phone-mask').inputmask({"mask": "+7 (999) 999-99-99"});
 
+    // Добавляем размер контейнера, если он выбран в кор. сист.
+    $('#add_supplier_product_form_root').on('change', function () {
+        console.log(this)
+    });
 });
 
 

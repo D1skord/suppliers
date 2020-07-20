@@ -18,6 +18,21 @@ class SupplierProduct
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="SupplierProductRoot")
+     */
+    private $root;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $containerSize;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SupplierProductType")
+     */
+    private $type;
+
+    /**
      * @ManyToOne(targetEntity="Supplier", inversedBy="products")
      */
     private $supplier;
@@ -210,6 +225,42 @@ class SupplierProduct
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getRoot(): ?SupplierProductRoot
+    {
+        return $this->root;
+    }
+
+    public function setRoot(?SupplierProductRoot $root): self
+    {
+        $this->root = $root;
+
+        return $this;
+    }
+
+    public function getType(): ?SupplierProductType
+    {
+        return $this->type;
+    }
+
+    public function setType(?SupplierProductType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getContainerSize(): ?string
+    {
+        return $this->containerSize;
+    }
+
+    public function setContainerSize(string $containerSize): self
+    {
+        $this->containerSize = $containerSize;
 
         return $this;
     }
