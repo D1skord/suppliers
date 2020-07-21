@@ -290,4 +290,25 @@ class ProductController extends AbstractController
         return $this->redirectToRoute('product_type_list');
     }
 
+    /**
+     * Страница товаров
+     *
+     * @Route("/products", name="product_list")
+     */
+    public function productList(Request $request)
+    {
+        $products = $this->getDoctrine()->getRepository(SupplierProduct::class)->findAll();
+
+        $jsonCart = $request->cookies->get('cart');
+        $cart = !empty($jsonCart) ? json_decode($jsonCart, true) : [];
+
+        return $this->render(
+            'product/list.html.twig',
+            [
+                'products' => $products,
+                'cart' => $cart
+            ]
+        );
+    }
+
 }

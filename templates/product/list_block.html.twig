@@ -18,13 +18,13 @@
   </tr>
   </thead>
   <tbody>
-  {% for product in supplier.products %}
+  {% for product in products %}
     <tr>
       <td>
         <div class="d-flex">
-          <a href="{{ path('supplier_product_edit', {'supplierId': supplier.id, 'productId': product.id}) }}"
+          <a href="{{ path('supplier_product_edit', {'supplierId': product.supplier.id, 'productId': product.id}) }}"
              class="btn btn-sm btn-warning ml-1"
-             data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
+             data-iframe-src="{{ path('supplier_edit', {id: product.supplier.id}) }}">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
           <a href="{{ path('supplier_product_delete', {id: product.id}) }}"

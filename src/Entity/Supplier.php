@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\SupplierRepository")
  * @UniqueEntity(fields={"email"}, message="Поставщик с таким email уже зарегистрирован!")
  */
 class Supplier

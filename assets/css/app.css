@@ -22,3 +22,11 @@
     text-align: right;
     vertical-align: middle;
 }
+
+.products-page-table {
+    font-size: 14px;
+}
+
+.cart-link {
+    position: relative;
+}

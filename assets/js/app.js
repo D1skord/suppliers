@@ -14,6 +14,7 @@ const $ = require('jquery');
 require('bootstrap');
 require('datatables.net');
 require('inputmask/dist/jquery.inputmask');
+import Cookies from 'js-cookie';
 
 
 
@@ -89,22 +90,52 @@ $(function () {
             "bFilter": true,
             "oSearch": {"bSmart": false, "bRegex": true},
             "aoColumns": [
-                { "bSearchable": false },
+                {"bSearchable": false},
                 {"sType": "html"},
                 {"sType": "html"},
                 {"sType": "html"},
                 {"sType": "html"},
-                { "bSearchable": false },
-                { "bSearchable": false },
-                { "bSearchable": false },
-                { "bSearchable": false },
-                { "bSearchable": false },
-                { "bSearchable": false },
-                { "bSearchable": false },
-                { "bSearchable": false },
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
             ],
             columnDefs: [
                 {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11]}
+            ]
+
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+    // Таблица товаров на странице товаров
+    $(document).ready(function () {
+        $('#productsPageTable').DataTable({
+            "language": dataTableLang,
+            "bFilter": true,
+            "oSearch": {"bSmart": false, "bRegex": true},
+            "aoColumns": [
+                {"bSearchable": false},
+                {"sType": "html"},
+                {"sType": "html"},
+                {"sType": "html"},
+                {"sType": "html"},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+                {"bSearchable": false},
+            ],
+            columnDefs: [
+                {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11, 12]}
             ]
 
         });
@@ -132,6 +163,46 @@ $(function () {
             $containerField.parent().addClass('d-none');
         }
     });
+
+    /* Корзина */
+
+    // Добавление/Удаление
+    $('.btn-product-cart').on('click', function () {
+        let btnStatuses = {
+            add: {text: 'В корзину', class : 'btn-primary'},
+            delete: {text: 'Из корзины', class : 'btn-success'}
+        };
+        console.log($(this).text() +'=='+ btnStatuses.add.text);
+        if ($(this).text() == btnStatuses.add.text) {
+            $(this).text(btnStatuses.delete.text);
+            $(this).addClass(btnStatuses.delete.class);
+            $(this).removeClass(btnStatuses.add.class);
+        } else {
+            $(this).text(btnStatuses.add);
+            $(this).text(btnStatuses.add.text);
+            $(this).addClass(btnStatuses.add.class);
+            $(this).removeClass(btnStatuses.delete.class);
+        }
+        let cart = Cookies.get('cart');
+        let productId = $(this).data('product-id');
+
+        if (!cart) {
+            cart = '{}';
+        }
+        let jsonCart = JSON.parse(cart);
+        if (jsonCart[productId]) {
+            delete jsonCart[productId];
+            alert("Товар удален из корзины!");
+        } else {
+            jsonCart[productId] = productId;
+            alert("Товар добавлен в корзину!");
+        }
+
+        Cookies.set('cart', JSON.stringify(jsonCart));
+
+        console.log(Cookies.get('cart'));
+    });
+    /* /Корзина */
 });
 
 

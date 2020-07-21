@@ -49,29 +49,32 @@ class MainController extends AbstractController
     public function supplierList(Request $request, ValidatorInterface $validator)
     {
         //$supplier = new Supplier();
-        $suppliers = $this->getDoctrine()->getRepository(Supplier::class)->findAll();
-        $supplierLast = $this->getDoctrine()->getRepository(Supplier::class)->findOneBy(['id' => 3]);
+
+      //  $supplierLast = $this->getDoctrine()->getRepository(Supplier::class)->findOneBy(['id' => 2]);
+        $supplierLast = $this->getDoctrine()->getRepository(Supplier::class)->findLast();
         $supplier = clone $supplierLast;
         $addSupplierForm = $this->createForm(AddSupplierFormType::class, $supplier);
         $addSupplierForm->handleRequest($request);
-        $errors = $validator->validate($supplier);
 
-        if (count($errors) > 0) {
-            foreach ($errors as $error) {
-                $this->addFlash('warning', $error->getMessage());
+
+        if ($addSupplierForm->isSubmitted()) {
+            $errors = $validator->validate($supplier);
+
+            if (count($errors) > 0) {
+                foreach ($errors as $error) {
+                    $this->addFlash('warning', $error->getMessage());
+                }
+            } else {
+                $supplier = $addSupplierForm->getData();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($supplier);
+                $entityManager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Поставщик добавлен!'
+                );
             }
-        }
-
-        if ($addSupplierForm->isSubmitted() && $addSupplierForm->isValid()) {
-            $supplier = $addSupplierForm->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($supplier);
-            $entityManager->flush();
-
-            $this->addFlash(
-                'success',
-                'Поставщик добавлен!'
-            );
         }
 
         $suppliers = $this->getDoctrine()->getRepository(Supplier::class)->findAll();
@@ -204,6 +207,7 @@ class MainController extends AbstractController
             'supplier/view.html.twig',
             [
                 'supplier' => $supplier,
+                'products' => $supplier->getProducts(),
                 'addSupplierStufferForm' => $addSupplierStufferForm->createView(),
                 'addSupplierProductForm' => $addSupplierProductForm->createView(),
             ]
@@ -296,7 +300,6 @@ class MainController extends AbstractController
         $addRegionForm->handleRequest($request);
 
         if ($addRegionForm->isSubmitted() && $addRegionForm->isValid()) {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($region);
             $entityManager->flush();
@@ -379,18 +382,5 @@ class MainController extends AbstractController
         return $this->redirectToRoute('region_list');
     }
 
-    /**
-     * Страница товаров
-     *
-     * @Route("/products", name="suppliers_products_list")
-     */
-    public function productList(Request $request)
-    {
-        return $this->render(
-            'base.html.twig',
-            [
 
-            ]
-        );
-    }
 }
