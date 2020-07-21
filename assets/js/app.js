@@ -92,6 +92,9 @@ $(function () {
                 { "bSearchable": false },
                 {"sType": "html"},
                 {"sType": "html"},
+                {"sType": "html"},
+                {"sType": "html"},
+                { "bSearchable": false },
                 { "bSearchable": false },
                 { "bSearchable": false },
                 { "bSearchable": false },
@@ -101,7 +104,7 @@ $(function () {
                 { "bSearchable": false },
             ],
             columnDefs: [
-                {orderable: false, sortable: false, targets: [0, 1, 7, 8]}
+                {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11]}
             ]
 
         });
@@ -119,7 +122,15 @@ $(function () {
 
     // Добавляем размер контейнера, если он выбран в кор. сист.
     $('#add_supplier_product_form_root').on('change', function () {
-        console.log(this)
+        let rootText = $(this).find("option:selected").text();
+
+        let $containerField = $('#add_supplier_product_form_containerSize');
+        if (rootText === 'Контейнер') {
+            $containerField.parent().removeClass('d-none');
+        } else {
+            $containerField.val('');
+            $containerField.parent().addClass('d-none');
+        }
     });
 });
 

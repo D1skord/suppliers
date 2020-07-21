@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Supplier;
+use App\Entity\SupplierRegion;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -59,6 +61,19 @@ class AddSupplierFormType extends AbstractType
             ->add('address', TextType::class, [
                 'label' => 'Адрес',
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'form-group'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('region', EntityType::class, [
+                'label' => 'Регион',
+                'required' => true,
+                'class' => SupplierRegion::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Не выбрано',
                 'row_attr' => [
                     'class' => 'form-group'
                 ],

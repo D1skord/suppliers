@@ -1,24 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Рдеактирование типа{% endblock %}
+{% block title %}Рдеактирование регионов{% endblock %}
 
 {% block body %}
   <div class="container">
     <div class="row">
       <div class="col-sm-8">
-        <h1>Редактирвоание типа</h1>
+        <h1>Редактирвоание регионов</h1>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-8">
-        {{ form_start(editTypeForm) }}
-        {{ form_widget(editTypeForm) }}
+        {{ form_start(editRegionForm) }}
+        {{ form_widget(editRegionForm) }}
 
         <div class="form-group text-right">
-          <a href="{{ path('product_type_list') }}" class="btn btn-light">Отмена</a>
+          <a href="{{ path('region_list') }}" class="btn btn-light">Отмена</a>
           <button type="submit" class="btn btn-success">Сохранить</button>
         </div>
-        {{ form_end(editTypeForm) }}
+        {{ form_end(editRegionForm) }}
       </div>
     </div>
   </div>

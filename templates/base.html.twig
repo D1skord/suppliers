@@ -12,7 +12,8 @@
 <body class="sb-nav-fixed sb-sidenav-toggled">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
   <a class="navbar-brand" href="/">Suppliers</a>
-  <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fa fa-bars"></i>
+  <button class="btn btn-link btn-sm order-1 order-lg-0 sidebar-toggle" id="sidebarToggle" href="#">
+    <i class="fa fa-bars"></i>
   </button>
   <!-- Navbar-->
   <ul class="navbar-nav ml-auto ml-md-0">
@@ -62,6 +63,18 @@
               <i class="fa fa-tree" aria-hidden="true"></i>
             </div>
             Корневые системы
+          </a>
+          <a class="nav-link" href="{{ path('product_type_list') }}">
+            <div class="sb-nav-link-icon">
+              <i class="fa fa-tasks" aria-hidden="true"></i>
+            </div>
+            Типы
+          </a>
+          <a class="nav-link" href="{{ path('region_list') }}">
+            <div class="sb-nav-link-icon">
+              <i class="fa fa-home" aria-hidden="true"></i>
+            </div>
+            Регионы
           </a>
         </div>
       </div>

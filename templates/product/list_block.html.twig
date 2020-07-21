@@ -6,9 +6,11 @@
     <th>Код</th>
     <th>Наименование</th>
     <th>Кор. сист.</th>
+    <th>Тип</th>
     <th>Обновлен</th>
     <th>Выс.</th>
     <th>Цена</th>
+    <th>Рег.</th>
     <th>Мин.</th>
     <th>Макс.</th>
     <th>Параметры</th>
@@ -35,13 +37,26 @@
       <td>{{ product.id }}</td>
       <td>{{ product.name }}</td>
       <td>
-        {% if ( product.root.name is defined) %}
+        {% if (product.root.name is not empty) %}
           {{ product.root.name }}
+          {% if ((product.containerSize is not empty) and (product.root.name == 'Контейнер')) %}
+            <p>Размер: {{ product.containerSize }}</p>
+          {% endif %}
+        {% endif %}
+      </td>
+      <td>
+        {% if (product.type.name is not empty) %}
+          {{ product.type.name }}
         {% endif %}
       </td>
       <td>{{ product.date|date("d.m.Y") }}</td>
       <td>{{ product.height }}</td>
       <td>{{ product.price }}</td>
+      <td>
+        {% if (product.supplier.region.code is defined) %}
+          {{ product.supplier.region.code }}
+        {% endif %}
+      </td>
       <td>{{ product.countMin }}</td>
       <td>{{ product.countMax }}</td>
 

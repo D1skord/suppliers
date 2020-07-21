@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Типы{% endblock %}
+{% block title %}Регионы{% endblock %}
 
 {% block body %}
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h1>Список типов</h1>
+        <h1>Список регионов</h1>
       </div>
     </div>
     <div class="row py-3">
       <div class="col-sm-12">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTypeModal">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addRegionModal">
           Добавить
         </button>
       </div>
@@ -24,26 +24,28 @@
           <thead class="thead-dark">
           <tr>
             <th class="th-sm"></th>
-            <th class="th-sm">Наименование</th>
+            <th class="th-sm">Название</th>
+            <th class="th-sm">Код</th>
           </tr>
           </thead>
           <tbody>
-          {% for type in types %}
+          {% for region in regions %}
             <tr>
               <td>
                 <div class="d-flex">
-                  <a href="{{ path('product_type_edit', {'id': type.id}) }}"
+                  <a href="{{ path('region_edit', {'id': region.id}) }}"
                      class="btn btn-sm btn-warning ml-1">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                   </a>
-                  <a href="{{ path('product_type_delete', {id: type.id}) }}"
+                  <a href="{{ path('region_delete', {id: region.id}) }}"
                      class="btn btn-sm btn-danger delete-object-btn ml-1">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </a>
                 </div>
 
               </td>
-              <td class="w-100">{{ type.name }}</td>
+              <td class="w-100">{{ region.name }}</td>
+              <td>{{ region.code }}</td>
             </tr>
           {% endfor %}
           </tbody>
@@ -55,7 +57,7 @@
 
 
   <!-- Modal -->
-  <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="addRegionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
        aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -65,15 +67,15 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        {{ form_start(addTypeForm) }}
+        {{ form_start(addRegionForm) }}
         <div class="modal-body">
-          {{ form_widget(addTypeForm) }}
+          {{ form_widget(addRegionForm) }}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
           <button type="submit" class="btn btn-success">Добавить</button>
         </div>
-        {{ form_end(addTypeForm) }}
+        {{ form_end(addRegionForm) }}
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\SupplierProduct;
 use App\Entity\SupplierProductRoot;
-use App\Entity\SupplierStaffer;
+use App\Entity\SupplierProductType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -29,7 +29,7 @@ class AddSupplierProductFormType extends AbstractType
                 ]
             ])
             ->add('root', EntityType::class, [
-                'label' => 'Заведение',
+                'label' => 'Корневая система',
                 'required' => true,
                 'class' => SupplierProductRoot::class,
                 'choice_label' => 'name',
@@ -46,6 +46,19 @@ class AddSupplierProductFormType extends AbstractType
                 'required' => false,
                 'row_attr' => [
                     'class' => 'form-group d-none'
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('type', EntityType::class, [
+                'label' => 'Тип',
+                'required' => true,
+                'class' => SupplierProductType::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Не выбрано',
+                'row_attr' => [
+                    'class' => 'form-group'
                 ],
                 'attr' => [
                     'class' => 'form-control'

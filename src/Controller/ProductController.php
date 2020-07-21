@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Supplier;
 use App\Entity\SupplierProduct;
 use App\Entity\SupplierProductRoot;
+use App\Entity\SupplierProductType;
 use App\Entity\SupplierStaffer;
 use App\Form\AddProductRootFormType;
+use App\Form\AddProductTypeFormType;
 use App\Form\AddSupplierFormType;
 use App\Form\AddSupplierProductFormType;
 use App\Form\AddSupplierStufferFormType;
@@ -90,14 +92,13 @@ class ProductController extends AbstractController
         ]);
     }
 
-
     /**
      * Страница корневых систем
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/products/product-root", name="product_root_list")
+     * @Route("/products/roots", name="product_root_list")
      */
     public function rootList(Request $request, ValidatorInterface $validator)
     {
@@ -136,7 +137,7 @@ class ProductController extends AbstractController
      * @param int $id - id корневой системы
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/products/product-root/{id}/edit", name="product_root_edit")
+     * @Route("/products/roots/{id}/edit", name="product_root_edit")
      */
     public function rootEdit(Request $request, int $id)
     {
@@ -172,7 +173,7 @@ class ProductController extends AbstractController
      * @param int $id - id корневой системы
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/products/product-root/{id}/delete", name="product_root_delete")
+     * @Route("/products/roots/{id}/delete", name="product_root_delete")
      */
     public function rootRemove(Request $request, int $id)
     {
@@ -188,6 +189,105 @@ class ProductController extends AbstractController
         );
 
         return $this->redirectToRoute('product_root_list');
+    }
+
+    /**
+     * Страница типов
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/products/types", name="product_type_list")
+     */
+    public function typeList(Request $request, ValidatorInterface $validator)
+    {
+        $type = new SupplierProductType();
+        $addTypeForm = $this->createForm(AddProductTypeFormType::class, $type);
+        $addTypeForm->handleRequest($request);
+
+        if ($addTypeForm->isSubmitted() && $addTypeForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($type);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Тип добавлен!'
+            );
+
+        }
+
+        $types = $this->getDoctrine()->getRepository(SupplierProductType::class)->findAll();
+
+        return $this->render(
+            'product/type/list.html.twig',
+            [
+                'addTypeForm' => $addTypeForm->createView(),
+                'types' => $types
+            ]
+        );
+    }
+
+    /**
+     * Страница редактирования типа
+     *
+     * @param Request $request
+     * @param int $id - id корневой системы
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/products/types/{id}/edit", name="product_type_edit")
+     */
+    public function typeEdit(Request $request, int $id)
+    {
+        $type = $this->getDoctrine()->getRepository(SupplierProductType::class)->find($id);
+
+        $editTypeForm = $this->createForm(AddProductTypeFormType::class, $type);
+        $editTypeForm->handleRequest($request);
+
+        if ($editTypeForm->isSubmitted() && $editTypeForm->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($type);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Тип изменен!'
+            );
+            return $this->redirectToRoute('product_type_list');
+        }
+
+        return $this->render(
+            'product/type/edit.html.twig',
+            [
+                'editTypeForm' => $editTypeForm->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Удаление типа
+     *
+     * @param Request $request
+     * @param int $id - id типа
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @Route("/products/types/{id}/delete", name="product_type_delete")
+     */
+    public function typeRemove(Request $request, int $id)
+    {
+        $type = $this->getDoctrine()->getRepository(SupplierProductType::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($type);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Тип удален!'
+        );
+
+        return $this->redirectToRoute('product_type_list');
     }
 
 }

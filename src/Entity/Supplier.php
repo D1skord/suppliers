@@ -31,6 +31,11 @@ class Supplier
     private $products;
 
     /**
+     * @ORM\ManyToOne(targetEntity="SupplierRegion")
+     */
+    private $region;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $name;
@@ -257,6 +262,18 @@ class Supplier
                 $product->setSupplier(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRegion(): ?SupplierRegion
+    {
+        return $this->region;
+    }
+
+    public function setRegion(?SupplierRegion $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }
