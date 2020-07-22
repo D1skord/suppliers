@@ -169,10 +169,38 @@ $(function () {
     // Добавление/Удаление
     $('.btn-product-cart').on('click', function () {
         let btnStatuses = {
-            add: {text: 'В корзину', class : 'btn-primary'},
-            delete: {text: 'Из корзины', class : 'btn-success'}
+            add: {text: 'В корзину', class: 'btn-primary'},
+            delete: {text: 'Из корзины', class: 'btn-success'}
         };
-        console.log($(this).text() +'=='+ btnStatuses.add.text);
+
+        let cart = Cookies.get('cart');
+        let productId = $(this).data('product-id');
+
+        if (!cart) {
+            cart = '{}';
+        }
+        let jsonCart = JSON.parse(cart);
+        let $carCount = $('#cartLink').find('.cart-count');
+
+        if (jsonCart[productId]) {
+            delete jsonCart[productId];
+            $carCount.text(Number($carCount.text()) - 1);
+        } else {
+            jsonCart[productId] = productId;
+            $carCount.text(Number($carCount.text()) + 1);
+        }
+
+        // Записываем изменения в куки корзины
+        Cookies.set('cart', JSON.stringify(jsonCart));
+
+        // Если корзина, то перезагружаем страницу для обновления товаров
+        if ($('.cart-page').length > 0) {
+            location.reload();
+            return true;
+        }
+
+
+        // Изменяем кнопки
         if ($(this).text() == btnStatuses.add.text) {
             $(this).text(btnStatuses.delete.text);
             $(this).addClass(btnStatuses.delete.class);
@@ -183,24 +211,6 @@ $(function () {
             $(this).addClass(btnStatuses.add.class);
             $(this).removeClass(btnStatuses.delete.class);
         }
-        let cart = Cookies.get('cart');
-        let productId = $(this).data('product-id');
-
-        if (!cart) {
-            cart = '{}';
-        }
-        let jsonCart = JSON.parse(cart);
-        if (jsonCart[productId]) {
-            delete jsonCart[productId];
-            alert("Товар удален из корзины!");
-        } else {
-            jsonCart[productId] = productId;
-            alert("Товар добавлен в корзину!");
-        }
-
-        Cookies.set('cart', JSON.stringify(jsonCart));
-
-        console.log(Cookies.get('cart'));
     });
     /* /Корзина */
 });

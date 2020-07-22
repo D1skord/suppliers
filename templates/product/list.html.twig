@@ -14,8 +14,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 d-flex justify-content-end">
-        <a href="{{ path('cart') }}" class="btn btn-success">
-          <i class="fa fa-shopping-cart" aria-hidden="true"></i>({{ cart|length }})
+        <a href="{{ path('cart') }}" class="btn btn-success cart-link" id="cartLink">
+          <span class="cart-count">{{ cart|length }}</span>
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
           Перейти в корзину</a>
       </div>
     </div>
