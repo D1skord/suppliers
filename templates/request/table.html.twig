@@ -1,0 +1,76 @@
+<table class="table table-bordered table-sm table-hover table-responsive-sm text-center request-table" cellspacing="0"
+                         width="100%">
+                    <thead class="thead-dark">
+                    <tr>
+                      <th>Код</th>
+                      <th>Наименование</th>
+                      <th>Ко-во</th>
+                      <th>Кор. сист.</th>
+                      <th>Тип</th>
+                      <th>Обновлен</th>
+                      <th>Выс.</th>
+                      <th>Цена</th>
+                      <th>Рег.</th>
+                      <th>Мин.</th>
+                      <th>Макс.</th>
+                      <th>Параметры</th>
+                      <th>Примечание</th>
+                      <th>Поставщик</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for requestItem in request.items %}
+                    <tr>
+
+                      <td>{{ requestItem.product.id }}</td>
+                      <td>{{ requestItem.product.name }}</td>
+                      <td>{{ requestItem.quantity }}</td>
+                      <td>
+                        {% if (requestItem.product.root.name is not empty) %}
+                          {{ requestItem.product.root.name }}
+                          {% if ((requestItem.product.containerSize is not empty) and (requestItem.product.root.name == 'Контейнер')) %}
+                            <p>Размер: {{ requestItem.product.containerSize }}</p>
+                          {% endif %}
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if (requestItem.product.type.name is not empty) %}
+                          {{ requestItem.product.type.name }}
+                        {% endif %}
+                      </td>
+                      <td>{{ requestItem.product.date|date("d.m.Y") }}</td>
+                      <td>{{ requestItem.product.height }}</td>
+                      <td>{{ requestItem.product.price }}</td>
+                      <td>
+                        {% if (requestItem.product.supplier.region.code is defined) %}
+                          {{ requestItem.product.supplier.region.code }}
+                        {% endif %}
+                      </td>
+                      <td>{{ requestItem.product.countMin }}</td>
+                      <td>{{ requestItem.product.countMax }}</td>
+                      <td>
+                        {% if requestItem.product.diameterBarrel is not empty %}
+                          <p>Диаметр ствола {{ requestItem.product.diameterBarrel }}</p>
+                        {% endif %}
+                        {% if requestItem.product.diameterCrown is not empty %}
+                          <p>Диаметр кроны {{ requestItem.product.diameterCrown }}</p>
+                        {% endif %}
+                        {% if requestItem.product.diameterComa is not empty %}
+                          <p>Диаметр земляного кома {{ requestItem.product.diameterComa }}</p>
+                        {% endif %}
+                      </td>
+                      <td>{{ requestItem.product.comment }}</td>
+                      <td class="text-left">
+                        <div>{{ requestItem.product.supplier.name }}</div>
+                        <div>Телефон:	{{ requestItem.product.supplier.phone }}</div>
+                        <div>Email:	{{ requestItem.product.supplier.email }}</div>
+                        <div>Сайт:	{{ requestItem.product.supplier.site }}</div>
+                        <div>Регион: {{ requestItem.product.supplier.region.name }}</div>
+                        <div>Адрес:	{{ requestItem.product.supplier.address }}</div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                  </table>

@@ -69,7 +69,7 @@ class ProductController extends AbstractController
      * @param int $id - id товара
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/product/{id}/delete", name="supplier_product_delete")
+     * @Route("/product/{id}/remove", name="supplier_product_remove")
      */
     public function remove(Request $request, int $id)
     {
@@ -173,7 +173,7 @@ class ProductController extends AbstractController
      * @param int $id - id корневой системы
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/products/roots/{id}/delete", name="product_root_delete")
+     * @Route("/products/roots/{id}/remove", name="product_root_remove")
      */
     public function rootRemove(Request $request, int $id)
     {
@@ -272,7 +272,7 @@ class ProductController extends AbstractController
      * @param int $id - id типа
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/products/types/{id}/delete", name="product_type_delete")
+     * @Route("/products/types/{id}/remove", name="product_type_remove")
      */
     public function typeRemove(Request $request, int $id)
     {

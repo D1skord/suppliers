@@ -30,3 +30,7 @@
 .cart-link {
     position: relative;
 }
+
+.table-sm {
+    font-size: 13px;
+}

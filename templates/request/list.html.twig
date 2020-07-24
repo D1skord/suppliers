@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Заявки{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Список заявок</h1>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" id="completedTab" data-toggle="tab" href="#tabCompleted" role="tab"
+             aria-controls="home" aria-selected="false">Завершенные</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" id="activeTab" data-toggle="tab" href="#tabActive" role="tab" aria-controls="profile"
+             aria-selected="true">Активные</a>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade" id="tabCompleted" role="tabpanel" aria-labelledby="home-tab">
+          <div class="accordion" id="accordionExample">
+            {% for request in requests if request.completed%}
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                            data-target="#collapse{{ request.id }}"
+                            aria-expanded="true" aria-controls="collapseOne">
+                      Заявка №{{ request.id }}  ({{ request.date|date("d.m.Y")  }})
+                    </button>
+                  </h2>
+                </div>
+
+                <div id="collapse{{ request.id }}" class="collapse show" aria-labelledby="headingOne"
+                     data-parent="#accordionExample">
+                  <div class="card-body">
+                    {{ include('request/table.html.twig')}}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tab-pane fade show active" id="tabActive" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="accordion" id="accordionExample">
+            {% for request in requests if not request.completed %}
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                  <button class="btn btn-link" type="button" data-toggle="collapse"
+                          data-target="#collapse{{ request.id }}"
+                          aria-expanded="true" aria-controls="collapseOne">
+                    Заявка №{{ request.id }}  ({{ request.date|date("d.m.Y")  }})
+                  </button>
+                </h2>
+              </div>
+
+              <div id="collapse{{ request.id }}" class="collapse show" aria-labelledby="headingOne"
+                   data-parent="#accordionExample">
+                <div class="card-body">
+                  {{ include('request/table.html.twig')}}
+                  <div class="div d-flex justify-content-center">
+                    <a class="btn btn-success" href="">Завершить</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -21,7 +21,7 @@
              data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </a>
-          <a href="{{ path('supplier_delete', {id: supplier.id}) }}" class="btn btn-danger delete-object-btn ml-1">
+          <a href="{{ path('supplier_remove', {id: supplier.id}) }}" class="btn btn-danger delete-object-btn ml-1">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </a>
         </div>
@@ -98,7 +98,7 @@
                      data-iframe-src="{{ path('supplier_edit', {id: supplier.id}) }}">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                   </a>
-                  <a href="{{ path('supplier_delete', {id: supplier.id}) }}"
+                  <a href="{{ path('supplier_remove', {id: supplier.id}) }}"
                      class="btn btn-sm btn-danger delete-object-btn ml-1">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </a>

@@ -30,8 +30,8 @@ class CartController extends AbstractController
         $jsonCart = $request->cookies->get('cart');
         $cart = !empty($jsonCart) ? json_decode($jsonCart, true) : [];
 
-        foreach ($cart as $productId) {
-            $productIds[] = $productId;
+        foreach ($cart as $cartItem) {
+            $productIds[] = $cartItem['id'];
         }
 
         if (!empty($productIds)) {

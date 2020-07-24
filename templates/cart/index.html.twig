@@ -14,12 +14,11 @@
   <div class="container-fluid cart-page">
     <div class="row pt-3">
       <div class="col-sm-12">
-        <table id="productsPageTable"
+        <table
                class="table table-bordered table-sm table-hover table-responsive-lg products-page-table" cellspacing="0"
                width="100%">
           <thead class="thead-dark">
           <tr>
-            <th class="sorting_disabled">-</th>
             <th>Код</th>
             <th>Наименование</th>
             <th>Кор. сист.</th>
@@ -32,26 +31,13 @@
             <th>Макс.</th>
             <th>Параметры</th>
             <th>Примечание</th>
-            <th>-</th>
+            <th>Кол-во</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
           {% for product in products %}
             <tr>
-              <td>
-                <div class="d-flex">
-                  <a href="{{ path('supplier_product_edit', {'supplierId': product.supplier.id, 'productId': product.id}) }}"
-                     class="btn btn-sm btn-warning ml-1"
-                     data-iframe-src="{{ path('supplier_edit', {id: product.supplier.id}) }}">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                  </a>
-                  <a href="{{ path('supplier_product_delete', {id: product.id}) }}"
-                     class="btn btn-sm btn-danger delete-object-btn ml-1">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                  </a>
-                </div>
-
-              </td>
               <td>{{ product.id }}</td>
               <td>{{ product.name }}</td>
               <td>
@@ -90,6 +76,7 @@
                 {% endif %}
               </td>
               <td>{{ product.comment }}</td>
+              <td><input class="product-quantity" type="number" value="{{ cart[product.id]['quantity'] }}" min="0" max="1000" step="1" data-product-id="{{ product.id }}"/></td>
               <td>
                 <button
                     class="btn {% if cart[product.id] is defined %}btn-success{% else %}btn-primary{% endif %} btn-product-cart"
@@ -100,6 +87,14 @@
           </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 d-flex justify-content-center">
+        <a href="{{ path('request_add') }}" class="btn btn-success">Оформить заявку</a>
       </div>
     </div>
   </div>

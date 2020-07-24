@@ -135,7 +135,7 @@ class MainController extends AbstractController
      * @param int $id - id поставщика
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/suppliers/{id}/delete", name="supplier_delete")
+     * @Route("/suppliers/{id}/remove", name="supplier_remove")
      */
     public function supplierRemove(Request $request, int $id)
     {
@@ -262,7 +262,7 @@ class MainController extends AbstractController
      * @param int $id - id контактного лица
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/staffer/{id]/delete", name="supplier_staffer_delete")
+     * @Route("/staffer/{id]/remove", name="supplier_staffer_remove")
      */
     public function supplierStafferRemove(Request $request, int $id)
     {
@@ -284,103 +284,4 @@ class MainController extends AbstractController
             'id' => $supplier->getId()
         ]);
     }
-
-    /**
-     * Страница регионов
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/regions", name="region_list")
-     */
-    public function regionList(Request $request, ValidatorInterface $validator)
-    {
-        $region = new SupplierRegion();
-        $addRegionForm = $this->createForm(AddSupplierRegionFormType::class, $region);
-        $addRegionForm->handleRequest($request);
-
-        if ($addRegionForm->isSubmitted() && $addRegionForm->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($region);
-            $entityManager->flush();
-
-            $this->addFlash(
-                'success',
-                'Регион добавлен!'
-            );
-        }
-
-        $regions = $this->getDoctrine()->getRepository(SupplierRegion::class)->findAll();
-
-        return $this->render(
-            'supplier/region/list.html.twig',
-            [
-                'addRegionForm' => $addRegionForm->createView(),
-                'regions' => $regions
-            ]
-        );
-    }
-
-    /**
-     * Страница редактирования региона
-     *
-     * @param Request $request
-     * @param int $id - id региона
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/regions/{id}/edit", name="region_edit")
-     */
-    public function regionEdit(Request $request, int $id)
-    {
-        $region = $this->getDoctrine()->getRepository(SupplierRegion::class)->find($id);
-
-        $editRegionForm = $this->createForm(AddSupplierRegionFormType::class, $region);
-        $editRegionForm->handleRequest($request);
-
-        if ($editRegionForm->isSubmitted() && $editRegionForm->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($region);
-            $entityManager->flush();
-
-            $this->addFlash(
-                'success',
-                'Регион изменен!'
-            );
-            return $this->redirectToRoute('region_list');
-        }
-
-        return $this->render(
-            'supplier/region/edit.html.twig',
-            [
-                'editRegionForm' => $editRegionForm->createView(),
-            ]
-        );
-    }
-
-    /**
-     * Удаление региона
-     *
-     * @param Request $request
-     * @param int $id - id региона
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     *
-     * @Route("/regions/{id}/delete", name="region_delete")
-     */
-    public function regionRemove(Request $request, int $id)
-    {
-        $region = $this->getDoctrine()->getRepository(SupplierRegion::class)->find($id);
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($region);
-        $entityManager->flush();
-
-        $this->addFlash(
-            'success',
-            'Регион удален!'
-        );
-
-        return $this->redirectToRoute('region_list');
-    }
-
-
 }

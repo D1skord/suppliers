@@ -8,16 +8,38 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import '../css/app.css';
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
 const $ = require('jquery');
+global.$ = global.jQuery = $;
+
+
 require('bootstrap');
-require('datatables.net');
+
+
+
+
 require('inputmask/dist/jquery.inputmask');
 import Cookies from 'js-cookie';
 
+require('datatables.net');
+
+import jsZip from 'jszip';
+
+require('datatables.net-bs4');
+require('datatables.net-buttons-bs4');
+require('datatables.net-responsive-bs4');
+require('datatables.net-buttons/js/buttons.print.js');
+require('datatables.net-buttons/js/buttons.colVis.js');
+require('datatables.net-buttons/js/buttons.flash.js');
+require('datatables.net-buttons/js/buttons.html5.js');
+
+//
+//
 
 
+require('datatables.net-searchpanes-bs4');
+require('datatables.net-select-bs4');
+
+window.JSZip = jsZip;
 $(function () {
     "use strict";
 
@@ -64,82 +86,114 @@ $(function () {
     };
 
     // Таблица поставщиков
-    $(document).ready(function () {
-        $('#suppliersTable').DataTable({
-            "language": dataTableLang,
-            "bFilter": true,
-            "oSearch": {"bSmart": false, "bRegex": true},
-            "aoColumns": [
-                {"mData": "name", "bSortable": false},
-                null,
-                null,
-                null,
-                null,
-            ],
-            columnDefs: [
-                {orderable: false, sortable: false, targets: [0, 1, 2, 3]}
-            ]
-        });
-        $('.dataTables_length').addClass('bs-select');
+    $('#suppliersTable').DataTable({
+        "language": dataTableLang,
+        "bFilter": true,
+        "oSearch": {"bSmart": false, "bRegex": true},
+        "aoColumns": [
+            {"mData": "name", "bSortable": false},
+            null,
+            null,
+            null,
+            null,
+        ],
+        columnDefs: [
+            {orderable: false, sortable: false, targets: [0, 1, 2, 3]}
+        ]
     });
+    $('.dataTables_length').addClass('bs-select');
+
 
     // Таблица товаров
-    $(document).ready(function () {
-        $('#productsTable').DataTable({
-            "language": dataTableLang,
-            "bFilter": true,
-            "oSearch": {"bSmart": false, "bRegex": true},
-            "aoColumns": [
-                {"bSearchable": false},
-                {"sType": "html"},
-                {"sType": "html"},
-                {"sType": "html"},
-                {"sType": "html"},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-            ],
-            columnDefs: [
-                {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11]}
-            ]
+    $('#productsTable').DataTable({
+        "language": dataTableLang,
+        "bFilter": true,
+        "oSearch": {"bSmart": false, "bRegex": true},
+        "aoColumns": [
+            {"bSearchable": false},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+        ],
+        columnDefs: [
+            {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11]}
+        ]
 
-        });
-        $('.dataTables_length').addClass('bs-select');
     });
+    $('.dataTables_length').addClass('bs-select');
 
     // Таблица товаров на странице товаров
-    $(document).ready(function () {
-        $('#productsPageTable').DataTable({
-            "language": dataTableLang,
-            "bFilter": true,
-            "oSearch": {"bSmart": false, "bRegex": true},
-            "aoColumns": [
-                {"bSearchable": false},
-                {"sType": "html"},
-                {"sType": "html"},
-                {"sType": "html"},
-                {"sType": "html"},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-                {"bSearchable": false},
-            ],
-            columnDefs: [
-                {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11, 12]}
-            ]
+    $('#productsPageTable').DataTable({
+        "language": dataTableLang,
+        "bFilter": true,
+        "oSearch": {"bSmart": false, "bRegex": true},
+        "aoColumns": [
+            {"bSearchable": false},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+        ],
+        columnDefs: [
+            {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11, 12]}
+        ],
 
-        });
-        $('.dataTables_length').addClass('bs-select');
+    });
+    $('.dataTables_length').addClass('bs-select');
+
+
+    // Таблица заявки
+    $('.request-table').DataTable({
+        "language": dataTableLang,
+        "bFilter": true,
+        "oSearch": {"bSmart": false, "bRegex": true},
+        "aoColumns": [
+            {"bSearchable": false},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"sType": "html"},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+            {"bSearchable": false},
+        ],
+        columnDefs: [
+            {orderable: false, sortable: false, targets: [0, 1, 3, 7, 8, 9, 10, 11, 12]}
+        ],
+
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Data export'
+            },
+        ],
+
+
     });
     /* /DataTable */
 
@@ -182,11 +236,12 @@ $(function () {
         let jsonCart = JSON.parse(cart);
         let $carCount = $('#cartLink').find('.cart-count');
 
+        //  Если товар уже в корзине, то удаляем
         if (jsonCart[productId]) {
             delete jsonCart[productId];
             $carCount.text(Number($carCount.text()) - 1);
         } else {
-            jsonCart[productId] = productId;
+            jsonCart[productId] = {'id': productId, 'quantity': 1};
             $carCount.text(Number($carCount.text()) + 1);
         }
 
@@ -212,7 +267,22 @@ $(function () {
             $(this).removeClass(btnStatuses.delete.class);
         }
     });
+
+    // Кол-во
+    $('.product-quantity').on('change', function () {
+        let cart = Cookies.get('cart'),
+                jsonCart = JSON.parse(cart),
+                productId = $(this).data('product-id');
+
+        jsonCart[productId]['quantity'] = $(this).val();
+        Cookies.set('cart', JSON.stringify(jsonCart));
+
+        console.log(jsonCart);
+    });
+
     /* /Корзина */
+
+
 });
 
 
