@@ -30,12 +30,7 @@ class MainController extends AbstractController
      */
     public function index(Request $request)
     {
-        return $this->render(
-            'base.html.twig',
-            [
-
-            ]
-        );
+        return $this->redirect('/login');
     }
 
     /**

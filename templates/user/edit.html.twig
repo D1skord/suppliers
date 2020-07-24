@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Рдеактирование пользователя{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+        <h1>Редактирвоание пользователя</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        {{ form_start(editUserForm) }}
+        {{ form_widget(editUserForm) }}
+
+        <div class="form-group text-right">
+          <a href="{{ path('region_list') }}" class="btn btn-light">Отмена</a>
+          <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
+        {{ form_end(editUserForm) }}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

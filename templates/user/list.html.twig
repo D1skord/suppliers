@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Список пользователей</h1>
+      </div>
+    </div>
+    <div class="row py-3">
+      <div class="col-sm-12">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUserModal">
+          Добавить
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <table class="table table-bordered table-sm table-hover table-responsive-lg" cellspacing="0"
+               width="100%">
+          <thead class="thead-dark">
+          <tr>
+            <th class="th-sm"></th>
+            <th class="th-sm">Логин</th>
+            <th class="th-sm">Роль</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for user in users %}
+            <tr>
+              <td>
+                <div class="d-flex">
+                  <a href="{{ path('user_edit', {'id': user.id}) }}"
+                     class="btn btn-sm btn-warning ml-1">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                  </a>
+                  {% if app.user.id != user.id %}
+                    <a href="{{ path('user_remove', {id: user.id}) }}"
+                       class="btn btn-sm btn-danger delete-object-btn ml-1">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                  {% endif %}
+                </div>
+              </td>
+              <td class="w-75">{{ user.username }}</td>
+              <td>{{ rolesAssoc[user.roles[0]] }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Добавление пользователя</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {{ form_start(addUserForm) }}
+        <div class="modal-body">
+          {{ form_widget(addUserForm) }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-success">Добавить</button>
+        </div>
+        {{ form_end(addUserForm) }}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

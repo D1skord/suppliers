@@ -55,7 +55,9 @@
 
 
           <a class="nav-link" href="{{ path('supplier_list') }}">
-            <div class="sb-nav-link-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+            <div class="sb-nav-link-icon">
+              <i class="fa fa-truck" aria-hidden="true"></i>
+            </div>
             Поставщики
           </a>
           <a class="nav-link" href="{{ path('product_list') }}">
@@ -94,11 +96,17 @@
             </div>
             Корзина
           </a>
+          <a class="nav-link" href="{{ path('user_list') }}">
+            <div class="sb-nav-link-icon">
+              <i class="fa fa-users" aria-hidden="true"></i>
+            </div>
+            Пользователи
+          </a>
         </div>
       </div>
       <div class="sb-sidenav-footer">
         <div class="small">Вы вошли как:</div>
-        {#        {{ app.user.email }}#}
+                {{ app.user.username }}
       </div>
     </nav>
   </div>
