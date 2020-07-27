@@ -108,12 +108,19 @@ class RegionController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($region);
-        $entityManager->flush();
 
-        $this->addFlash(
-            'success',
-            'Регион удален!'
-        );
+        try {
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'Регион удален!'
+            );
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'warning',
+                'Регион используется!'
+            );
+        }
 
         return $this->redirectToRoute('region_list');
     }

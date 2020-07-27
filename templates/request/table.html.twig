@@ -26,18 +26,8 @@
       <td>{{ requestItem.product.id }}</td>
       <td>{{ requestItem.product.name }}</td>
       <td>{{ requestItem.quantity }}</td>
-      <td>
-        {% if (requestItem.product.root.name is not empty) %}
-          {{ requestItem.product.root.name }}
-          {% if ((requestItem.product.containerSize is not empty) and (requestItem.product.root.name == 'Контейнер')) %}
-            Размер: {{ requestItem.product.containerSize }}<br>
-          {% endif %}
-        {% endif %}
-      </td>
-      <td>
-        {% if (requestItem.product.type.name is not empty) %}
-          {{ requestItem.product.type.name }}
-        {% endif %}
+      <td>{% if (requestItem.product.root.name is not empty) %}{{ requestItem.product.root.name }}{% if ((requestItem.product.containerSize is not empty) and (requestItem.product.root.name == 'Контейнер')) %}<br>Размер: {{ requestItem.product.containerSize }}<br>{% endif %}{% endif %}</td>
+      <td>{% if (requestItem.product.type.name is not empty) %}{{ requestItem.product.type.name }}{% endif %}
       </td>
       <td>{{ requestItem.product.date|date("d.m.Y") }}</td>
       <td>{{ requestItem.product.height }}</td>
@@ -49,17 +39,7 @@
       </td>
       <td>{{ requestItem.product.countMin }}</td>
       <td>{{ requestItem.product.countMax }}</td>
-      <td>
-        {% if requestItem.product.diameterBarrel is not empty %}
-          <div>Диаметр ствола {{ requestItem.product.diameterBarrel }}</div>
-        {% endif %}
-        {% if requestItem.product.diameterCrown is not empty %}
-          <div>Диаметр кроны {{ requestItem.product.diameterCrown }}</div>
-        {% endif %}
-        {% if requestItem.product.diameterComa is not empty %}
-          <div>Диаметр земляного кома {{ requestItem.product.diameterComa }}</div>
-        {% endif %}
-      </td>
+      <td>{% if requestItem.product.diameterBarrel is not empty %}<div>Диаметр ствола {{ requestItem.product.diameterBarrel }}</div>{% endif %}{% if requestItem.product.diameterCrown is not empty %}<div>Диаметр кроны {{ requestItem.product.diameterCrown }}</div>{% endif %}{% if requestItem.product.diameterComa is not empty %}<div>Диаметр земляного кома {{ requestItem.product.diameterComa }}</div>{% endif %}</td>
       <td>{{ requestItem.product.comment }}</td>
       <td class="text-left">{{ requestItem.product.supplier.name }}<br>Телефон: {{ requestItem.product.supplier.phone }}
         <br>Email: {{ requestItem.product.supplier.email }}<br>Сайт: {{ requestItem.product.supplier.site }}

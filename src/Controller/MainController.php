@@ -45,8 +45,7 @@ class MainController extends AbstractController
      */
     public function supplierList(Request $request, ValidatorInterface $validator)
     {
-        $supplierLast = $this->getDoctrine()->getRepository(Supplier::class)->findLast();
-        $supplier = clone $supplierLast;
+        $supplier = new Supplier();
         $addSupplierForm = $this->createForm(AddSupplierFormType::class, $supplier);
         $addSupplierForm->handleRequest($request);
 
@@ -180,7 +179,10 @@ class MainController extends AbstractController
             );
         }
 
-        $supplierProduct = new SupplierProduct();
+
+        $supplierProductLast = $this->getDoctrine()->getRepository(SupplierProduct::class)->findLast();
+        $supplierProduct = clone $supplierProductLast;
+
         $addSupplierProductForm = $this->createForm(AddSupplierProductFormType::class, $supplierProduct);
         $addSupplierProductForm->handleRequest($request);
 

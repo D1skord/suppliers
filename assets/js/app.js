@@ -94,18 +94,6 @@ $(function () {
 
 
 
-    //
-    // $('#productsPageTable tfoot tr th').each(function () {
-    //
-    //     var title = $('#productsPageTable thead tr th').eq($(this).index()).text();
-    //     $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-    // });
-    // var productsPageTable = $('#productsPageTable').DataTable();
-    // productsPageTable.columns().eq(0).each(function (colIdx) {
-    //     $('input', productsPageTable.column(colIdx).footer()).on('keyup change', function () {
-    //         productsPageTable.column(colIdx).search(this.value).draw();
-    //     });
-    // });
 
 
 
@@ -250,18 +238,14 @@ $(function () {
 
         dom: 'Bfrtip',
         buttons: [
-            // $.extend(true, {}, fixNewLine, {
-            //     extend: 'excelHtml5',
-            //     action: function (e, dt, button, config) {
-            //         let newTitle = $(button).parent().parent().parent().parent().parent().find('.request-title').text();
-            //         config.title = newTitle;
-            //         $.fn.dataTable.ext.buttons.excelHtml5.action(e, dt, button, config);
-            //     },
-            //
-            // }),
 
             {
                 extend: 'excelHtml5',
+                action: function (e, dt, button, config) {
+                    let newTitle = $(button).parent().parent().parent().parent().parent().find('.request-title').text();
+                    config.title = newTitle;
+                    $.fn.dataTable.ext.buttons.excelHtml5.action(e, dt, button, config);
+                },
                 text: 'Excel',
                 exportOptions: {
                     format: {
@@ -277,8 +261,6 @@ $(function () {
                             data = data.replace(/<div[^>]*>/g, '').replace(/<\/div>/g, '<br>');
 
                             data = remove_tags(data);
-
-
 
                             //split at each new line
                             let splitData = data.split('<br>');
@@ -342,10 +324,12 @@ $(function () {
 
                     var firstExcelRow = 3;
 
-                    $('row c[r="A2"]', sheet).attr('s', '25');
-                    $('row c[r="B2"]', sheet).attr('s', '25');
+
 
                     table.rows({order: 'applied', search: 'applied'}).every(function (rowIdx, tableLoop, rowLoop) {
+
+                        $(this).attr('ht', 60);
+                        $(this).attr('customHeight', 1);
 
                         var node = this.node();
 
@@ -354,13 +338,11 @@ $(function () {
                         // the cell with biggest number of line inside it determine the height of entire row
                         var maxCountLinesRow = 1;
 
-
                         for (var indexCol = 1; indexCol <= num_colonne; indexCol++) {
 
                             var letterExcel = columnToLetter(indexCol);
 
                             $('c[r=' + letterExcel + (firstExcelRow + rowLoop) + ']', sheet).each(function (e) {
-
 
 
                                 // how many lines are present in this cell?
@@ -401,6 +383,8 @@ $(function () {
 
 
     });
+
+
     /* /DataTable */
 
     // Спрашивать перед удалением

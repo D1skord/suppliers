@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 class RequestController extends AbstractController
 {
@@ -26,6 +28,8 @@ class RequestController extends AbstractController
      * Страница заявок
      *
      * @param Request $request
+     * @param Response $response
+     * @param ValidatorInterface $validator
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/requests", name="request_list")
@@ -103,6 +107,9 @@ class RequestController extends AbstractController
             'Заявка создана!'
         );
 
+        $res = new Response();
+        $res->headers->clearCookie('cart');
+        $res->send();
         return $this->redirectToRoute('request_list');
     }
 

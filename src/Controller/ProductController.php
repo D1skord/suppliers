@@ -183,12 +183,19 @@ class ProductController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($root);
-        $entityManager->flush();
+        try {
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'Корневая система удалена!'
+            );
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'warning',
+                'Корневая система используется!'
+            );
+        }
 
-        $this->addFlash(
-            'success',
-            'Корневая система удалена!'
-        );
 
         return $this->redirectToRoute('product_root_list');
     }
@@ -280,12 +287,19 @@ class ProductController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($type);
-        $entityManager->flush();
 
-        $this->addFlash(
-            'success',
-            'Тип удален!'
-        );
+        try {
+            $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'Тип удален!'
+            );
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'warning',
+                'Тип используется!'
+            );
+        }
 
         return $this->redirectToRoute('product_type_list');
     }
