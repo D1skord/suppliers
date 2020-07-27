@@ -32,14 +32,11 @@ require('datatables.net-buttons/js/buttons.colVis.js');
 require('datatables.net-buttons/js/buttons.flash.js');
 require('datatables.net-buttons/js/buttons.html5.js');
 
-//
-//
-
-
 require('datatables.net-searchpanes-bs4');
 require('datatables.net-select-bs4');
 
 window.JSZip = jsZip;
+
 $(function () {
     "use strict";
 
@@ -55,7 +52,6 @@ $(function () {
 
         }
     });
-
 
     // Toggle the side navigation
     $("#sidebarToggle").on("click", function (e) {
@@ -91,12 +87,6 @@ $(function () {
         "search": "Общий фильтр:",
         "zeroRecords": "Данные не найдены"
     };
-
-
-
-
-
-
 
     // Таблица товаров
     $('#productsTable').DataTable({
@@ -153,10 +143,6 @@ $(function () {
     });
     $('.dataTables_length').addClass('bs-select');
 
-
-
-
-
     $('#searchByIdInput').on('keyup change', function () {
         productsPageTable.column(1).search(this.value).draw();
     });
@@ -170,8 +156,6 @@ $(function () {
         productsPageTable.column(4).search(this.value).draw();
     });
 
-
-
     var fixNewLine = {
         exportOptions: {
             format: {
@@ -182,7 +166,6 @@ $(function () {
             }
         }
     };
-
 
     function columnToLetter(column) {
         var temp, letter = '';
@@ -206,9 +189,6 @@ $(function () {
 
         return html;
     }
-
-
-
 
     // Таблица заявки
     var table = $('.request-table').DataTable({
@@ -384,7 +364,6 @@ $(function () {
 
     });
 
-
     /* /DataTable */
 
     // Спрашивать перед удалением
@@ -472,7 +451,6 @@ $(function () {
 
     /* /Корзина */
 
-
     $('.custom-file-input').on('change', function () {
         let files = $(this)[0].files;
         let name = '';
@@ -481,6 +459,18 @@ $(function () {
         }
         $(".custom-file-label").html(name);
     });
+
+
+
+    // Очистка формы добавления продукта
+    $('#resetSupplierFormBtn').on('click', function (ev) {
+        ev.preventDefault()
+        $(this).closest('form').find('input, textarea').val('');
+        $(this).closest('form').find('select').prop("selectedIndex", 0);
+    });
+
+
+
 });
 
 

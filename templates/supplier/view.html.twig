@@ -152,10 +152,8 @@
   </div>
 
   <div class="container">
-    <div class="row">
+    <div class="row pt-3">
       <div class="col-sm-12 d-flex justify-content-center">
-
-
         <div class="card">
           <div class="card-header">
             Импорт товаров
@@ -165,37 +163,17 @@
               <i class="fa fa-file-excel-o" aria-hidden="true"></i>
               Шаблон
             </a>
-
             {{ form_start(importForm) }}
-
             <div class="form-group">
               <div class="custom-file">
                 {{ form_widget(importForm.file) }}
                 <label class="custom-file-label" for="customFile" data-browse=".xlsx">Выберите файл</label>
               </div>
             </div>
-
             <button type="submit" class="btn btn-success">Импорт</button>
             {{ form_end(importForm) }}
-
-
-            {#            <form action="" method="post" enctype="multipart/form-data">#}
-            {#              <div class="form-group">#}
-            {#                <div class="custom-file">#}
-            {#                  <input type="file" class="custom-file-input" id="customFile" name="file"#}
-            {#                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">#}
-            {#                  <label class="custom-file-label" for="customFile" data-browse=".xlsx">Выберите файл</label>#}
-            {#                </div>#}
-            {#              </div>#}
-            {#              <input type="number" value="{{ supplier.id }}" name="supplier_id" hidden>#}
-            {#              <div class="form-group text-center">#}
-            {#                <button class="btn btn-success" type="submit">Импорт</button>#}
-            {#              </div>#}
-            {#            </form>#}
           </div>
         </div>
-
-
       </div>
     </div>
   </div>
@@ -240,8 +218,10 @@
           {{ form_widget(addSupplierProductForm) }}
         </div>
         <div class="modal-footer">
+          <button type="reset" class="btn btn-light" id="resetSupplierFormBtn">Очистить</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
           <button type="submit" class="btn btn-success">Добавить</button>
+
         </div>
         {{ form_end(addSupplierProductForm) }}
       </div>
