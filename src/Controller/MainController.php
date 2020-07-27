@@ -12,6 +12,8 @@ use App\Form\AddSupplierFormType;
 use App\Form\AddSupplierProductFormType;
 use App\Form\AddSupplierRegionFormType;
 use App\Form\AddSupplierStufferFormType;
+use App\Form\ImportProductsFormType;
+use App\Service\SupplierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,14 +45,10 @@ class MainController extends AbstractController
      */
     public function supplierList(Request $request, ValidatorInterface $validator)
     {
-        //$supplier = new Supplier();
-
-      //  $supplierLast = $this->getDoctrine()->getRepository(Supplier::class)->findOneBy(['id' => 2]);
         $supplierLast = $this->getDoctrine()->getRepository(Supplier::class)->findLast();
         $supplier = clone $supplierLast;
         $addSupplierForm = $this->createForm(AddSupplierFormType::class, $supplier);
         $addSupplierForm->handleRequest($request);
-
 
         if ($addSupplierForm->isSubmitted()) {
             $errors = $validator->validate($supplier);
@@ -157,7 +155,7 @@ class MainController extends AbstractController
      *
      * @Route("/suppliers/{id}", name="supplier_view")
      */
-    public function suppliesView(Request $request, int $id)
+    public function suppliesView(Request $request, int $id, SupplierService $supplierService)
     {
         $supplier = $this->getDoctrine()->getRepository(Supplier::class)->find($id);
 
@@ -198,6 +196,43 @@ class MainController extends AbstractController
             );
         }
 
+        $importForm = $this->createForm(ImportProductsFormType::class);
+        $importForm->handleRequest($request);
+
+        if ($importForm->isSubmitted() && $importForm->isValid()) {
+            $file = $importForm->get('file')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = urlencode($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                $file->move(
+                    $this->getParameter('files_directory'),
+                    $newFilename
+                );
+
+                $filePtah = $this->getParameter('files_directory') . '/' . $newFilename;
+
+                try {
+                    $supplierService->importProducts($filePtah, $supplier->getId());
+                    $this->addFlash(
+                        'success',
+                        'Импорт прошел успешно!'
+                    );
+                } catch (\Exception $e) {
+                    $this->addFlash(
+                        'warning',
+                        'Возникла ошибка!' . $e
+                    );
+                }
+            }
+        }
+
         return $this->render(
             'supplier/view.html.twig',
             [
@@ -205,6 +240,7 @@ class MainController extends AbstractController
                 'products' => $supplier->getProducts(),
                 'addSupplierStufferForm' => $addSupplierStufferForm->createView(),
                 'addSupplierProductForm' => $addSupplierProductForm->createView(),
+                'importForm' => $importForm->createView(),
             ]
         );
     }
@@ -218,8 +254,12 @@ class MainController extends AbstractController
      *
      * @Route("/suppliers/{supplierId}/staffer/{stafferId}/edit", name="supplier_staffer_edit")
      */
-    public function supplierStafferEdit(Request $request, int $supplierId, int $stafferId)
-    {
+    public
+    function supplierStafferEdit(
+        Request $request,
+        int $supplierId,
+        int $stafferId
+    ) {
         $supplier = $this->getDoctrine()->getRepository(Supplier::class)->find($supplierId);
         $staffer = $supplier->getStaffer($stafferId);
 
@@ -259,8 +299,11 @@ class MainController extends AbstractController
      *
      * @Route("/staffer/{id]/remove", name="supplier_staffer_remove")
      */
-    public function supplierStafferRemove(Request $request, int $id)
-    {
+    public
+    function supplierStafferRemove(
+        Request $request,
+        int $id
+    ) {
         $staffer = $this->getDoctrine()->getRepository(SupplierStaffer::class)->find($id);
 
         $supplier = $staffer->getSupplier();

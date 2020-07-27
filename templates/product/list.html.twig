@@ -12,7 +12,7 @@
   </div>
 
   <div class="container-fluid">
-    <div class="row">
+    <div class="row {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER_BUY') %}d-none{% endif %}">
       <div class="col-sm-12 d-flex justify-content-end">
         <a href="{{ path('cart') }}" class="btn btn-success cart-link" id="cartLink">
           <span class="cart-count">{{ cart|length }}</span>
@@ -27,7 +27,7 @@
                width="100%">
           <thead class="thead-dark">
           <tr>
-            <th class="sorting_disabled">-</th>
+            <th class="sorting_disabled {% if is_granted('ROLE_MANAGER_SALE') %}d-none{% endif %}">-</th>
             <th>Код</th>
             <th>Наименование</th>
             <th>Кор. сист.</th>
@@ -40,13 +40,13 @@
             <th>Макс.</th>
             <th>Параметры</th>
             <th>Примечание</th>
-            <th>-</th>
+            <th class="{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER_BUY') %}d-none{% endif %}">-</th>
           </tr>
           </thead>
           <tbody>
           {% for product in products %}
             <tr>
-              <td>
+              <td class="{% if is_granted('ROLE_MANAGER_SALE') %}d-none{% endif %}">
                 <div class="d-flex">
                   <a href="{{ path('supplier_product_edit', {'supplierId': product.supplier.id, 'productId': product.id}) }}"
                      class="btn btn-sm btn-warning ml-1"
@@ -66,7 +66,7 @@
                 {% if (product.root.name is not empty) %}
                   {{ product.root.name }}
                   {% if ((product.containerSize is not empty) and (product.root.name == 'Контейнер')) %}
-                    <p>Размер: {{ product.containerSize }}</p>
+                    <div>Размер: {{ product.containerSize }}</div>
                   {% endif %}
                 {% endif %}
               </td>
@@ -77,7 +77,7 @@
               </td>
               <td>{{ product.date|date("d.m.Y") }}</td>
               <td>{{ product.height }}</td>
-              <td>{{ product.price }}</td>
+              <td>{{ product.price|number_format(2, ',', ' ') }}</td>
               <td>
                 {% if (product.supplier.region.code is defined) %}
                   {{ product.supplier.region.code }}
@@ -88,17 +88,17 @@
 
               <td>
                 {% if product.diameterBarrel is not empty %}
-                  <p>Диаметр ствола {{ product.diameterBarrel }}</p>
+                  <div>Диаметр ствола {{ product.diameterBarrel }}</div>
                 {% endif %}
                 {% if product.diameterCrown is not empty %}
-                  <p>Диаметр кроны {{ product.diameterCrown }}</p>
+                  <div>Диаметр кроны {{ product.diameterCrown }}</div>
                 {% endif %}
                 {% if product.diameterComa is not empty %}
-                  <p>Диаметр земляного кома {{ product.diameterComa }}</p>
+                  <div>Диаметр земляного кома {{ product.diameterComa }}</div>
                 {% endif %}
               </td>
               <td>{{ product.comment }}</td>
-              <td>
+              <td class="{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER_BUY') %}d-none{% endif %}">
                 <button
                     class="btn {% if cart[product.id] is defined %}btn-success{% else %}btn-primary{% endif %} btn-product-cart"
                     data-product-id="{{ product.id }}">{% if cart[product.id] is defined %}Из корзины{% else %}В корзину{% endif %}</button>

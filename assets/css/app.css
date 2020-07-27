@@ -34,3 +34,11 @@
 .table-sm {
     font-size: 13px;
 }
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+     padding: 0;
+}

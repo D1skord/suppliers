@@ -33,7 +33,7 @@
               <div class="card">
                 <div class="card-header" id="headingOne">
                   <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                    <button class="btn btn-link request-title" type="button" data-toggle="collapse"
                             data-target="#collapse{{ request.id }}"
                             aria-expanded="true" aria-controls="collapseOne">
                       Заявка №{{ request.id }}  ({{ request.date|date("d.m.Y")  }})
@@ -56,21 +56,15 @@
             {% for request in requests if not request.completed %}
             <div class="card">
               <div class="card-header" id="headingOne">
-                <h2 class="mb-0">
-                  <button class="btn btn-link" type="button" data-toggle="collapse"
-                          data-target="#collapse{{ request.id }}"
-                          aria-expanded="true" aria-controls="collapseOne">
-                    Заявка №{{ request.id }}  ({{ request.date|date("d.m.Y")  }})
-                  </button>
-                </h2>
+                <h2 class="mb-0"><button class="btn btn-link request-title" type="button" data-toggle="collapse" data-target="#collapse{{ request.id }}" aria-expanded="true" aria-controls="collapseOne">Заявка №{{ request.id }}  ({{ request.date|date("d.m.Y")  }})</button></h2>
               </div>
 
-              <div id="collapse{{ request.id }}" class="collapse show" aria-labelledby="headingOne"
+              <div id="collapse{{ request.id }}" class="collapse" aria-labelledby="headingOne"
                    data-parent="#accordionExample">
                 <div class="card-body">
                   {{ include('request/table.html.twig')}}
                   <div class="div d-flex justify-content-center">
-                    <a class="btn btn-success" href="">Завершить</a>
+                    <a class="btn btn-success" href="{{ path('request_complete', {'id': request.id}) }}">Завершить</a>
                   </div>
                 </div>
               </div>

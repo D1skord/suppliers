@@ -92,6 +92,7 @@ class RequestController extends AbstractController
 
         // Устанавливаем дату заявки
         $prodRequest->setDate(new \DateTime());
+        $prodRequest->setCompleted(0);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($prodRequest);
@@ -105,5 +106,30 @@ class RequestController extends AbstractController
         return $this->redirectToRoute('request_list');
     }
 
+    /**
+     * Заверщение заявки
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/requests/{id}/complete", name="request_complete")
+     */
+    public function complete(Request $request, int $id)
+    {
+        $supplierRequest = $this->getDoctrine()->getRepository(\App\Entity\Request::class)->find($id);
 
+        $supplierRequest->setCompleted(1);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($supplierRequest);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Заявка завершена!'
+        );
+
+        return $this->redirectToRoute('request_list');
+    }
 }

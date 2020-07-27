@@ -55,7 +55,7 @@
               </td>
               <td>{{ product.date|date("d.m.Y") }}</td>
               <td>{{ product.height }}</td>
-              <td>{{ product.price }}</td>
+              <td>{{ product.price|number_format(2, ',', ' ') }}</td>
               <td>
                 {% if (product.supplier.region.code is defined) %}
                   {{ product.supplier.region.code }}

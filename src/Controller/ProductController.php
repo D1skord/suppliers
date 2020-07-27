@@ -12,6 +12,8 @@ use App\Form\AddProductTypeFormType;
 use App\Form\AddSupplierFormType;
 use App\Form\AddSupplierProductFormType;
 use App\Form\AddSupplierStufferFormType;
+use App\Service\SupplierService;
+use Couchbase\Document;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +41,8 @@ class ProductController extends AbstractController
         $editSupplierProductForm->handleRequest($request);
 
         if ($editSupplierProductForm->isSubmitted() && $editSupplierProductForm->isValid()) {
+            $product->setDate(new \DateTime());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($supplier);
             $entityManager->flush();
@@ -107,7 +111,6 @@ class ProductController extends AbstractController
         $addRootForm->handleRequest($request);
 
         if ($addRootForm->isSubmitted() && $addRootForm->isValid()) {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($root);
             $entityManager->flush();
@@ -116,7 +119,6 @@ class ProductController extends AbstractController
                 'success',
                 'Корневая система добавлена!'
             );
-
         }
 
         $roots = $this->getDoctrine()->getRepository(SupplierProductRoot::class)->findAll();
@@ -206,7 +208,6 @@ class ProductController extends AbstractController
         $addTypeForm->handleRequest($request);
 
         if ($addTypeForm->isSubmitted() && $addTypeForm->isValid()) {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($type);
             $entityManager->flush();
@@ -215,7 +216,6 @@ class ProductController extends AbstractController
                 'success',
                 'Тип добавлен!'
             );
-
         }
 
         $types = $this->getDoctrine()->getRepository(SupplierProductType::class)->findAll();

@@ -9,7 +9,7 @@
     {{ encore_entry_link_tags('app') }}
   {% endblock %}
 </head>
-<body class="sb-nav-fixed sb-sidenav-toggled">
+<body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
   <a class="navbar-brand" href="/">Suppliers</a>
   <button class="btn btn-link btn-sm order-1 order-lg-0 sidebar-toggle" id="sidebarToggle" href="#">
@@ -54,59 +54,71 @@
           {#          </div>#}
 
 
-          <a class="nav-link" href="{{ path('supplier_list') }}">
-            <div class="sb-nav-link-icon">
-              <i class="fa fa-truck" aria-hidden="true"></i>
-            </div>
-            Поставщики
-          </a>
+          {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER_BUY') %}
+            <a class="nav-link" href="{{ path('supplier_list') }}">
+              <div class="sb-nav-link-icon">
+                <i class="fa fa-truck" aria-hidden="true"></i>
+              </div>
+              Поставщики
+            </a>
+          {% endif %}
           <a class="nav-link" href="{{ path('product_list') }}">
             <div class="sb-nav-link-icon">
               <i class="fa fa-pagelines" aria-hidden="true"></i>
             </div>
             Товары
           </a>
-          <a class="nav-link" href="{{ path('product_root_list') }}">
-            <div class="sb-nav-link-icon">
-              <i class="fa fa-tree" aria-hidden="true"></i>
-            </div>
-            Корневые системы
-          </a>
-          <a class="nav-link" href="{{ path('product_type_list') }}">
-            <div class="sb-nav-link-icon">
-              <i class="fa fa-tasks" aria-hidden="true"></i>
-            </div>
-            Типы
-          </a>
-          <a class="nav-link" href="{{ path('region_list') }}">
-            <div class="sb-nav-link-icon">
-              <i class="fa fa-home" aria-hidden="true"></i>
-            </div>
-            Регионы
-          </a>
+          {% if is_granted('ROLE_ADMIN') %}
+            <a class="nav-link" href="{{ path('product_root_list') }}">
+              <div class="sb-nav-link-icon">
+                <i class="fa fa-tree" aria-hidden="true"></i>
+              </div>
+              Корневые системы
+            </a>
+          {% endif %}
+          {% if is_granted('ROLE_ADMIN') %}
+            <a class="nav-link" href="{{ path('product_type_list') }}">
+              <div class="sb-nav-link-icon">
+                <i class="fa fa-tasks" aria-hidden="true"></i>
+              </div>
+              Типы
+            </a>
+          {% endif %}
+          {% if is_granted('ROLE_ADMIN') %}
+            <a class="nav-link" href="{{ path('region_list') }}">
+              <div class="sb-nav-link-icon">
+                <i class="fa fa-home" aria-hidden="true"></i>
+              </div>
+              Регионы
+            </a>
+          {% endif %}
           <a class="nav-link" href="{{ path('request_list') }}">
             <div class="sb-nav-link-icon">
               <i class="fa fa-file-o" aria-hidden="true"></i>
             </div>
             Заявки
           </a>
-          <a class="nav-link" href="{{ path('cart') }}">
-            <div class="sb-nav-link-icon">
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </div>
-            Корзина
-          </a>
-          <a class="nav-link" href="{{ path('user_list') }}">
-            <div class="sb-nav-link-icon">
-              <i class="fa fa-users" aria-hidden="true"></i>
-            </div>
-            Пользователи
-          </a>
+          {% if is_granted('ROLE_MANAGER_SALE') %}
+            <a class="nav-link" href="{{ path('cart') }}">
+              <div class="sb-nav-link-icon">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              </div>
+              Корзина
+            </a>
+          {% endif %}
+          {% if is_granted('ROLE_ADMIN') %}
+            <a class="nav-link" href="{{ path('user_list') }}">
+              <div class="sb-nav-link-icon">
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </div>
+              Пользователи
+            </a>
+          {% endif %}
         </div>
       </div>
       <div class="sb-sidenav-footer">
         <div class="small">Вы вошли как:</div>
-                {{ app.user.username }}
+        {{ app.user.username }}
       </div>
     </nav>
   </div>

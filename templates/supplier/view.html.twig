@@ -26,7 +26,8 @@
           </a>
         </div>
         <div class="collapse mt-2" id="collapseSupplierCard">
-          <table class="table table-bordered table-sm table-hover table-vertical table-responsive-lg" cellspacing="0" width="100%">
+          <table class="table table-bordered table-sm table-hover table-vertical table-responsive-lg" cellspacing="0"
+                 width="100%">
             <thead class="thead-dark">
             <tr>
               <th class="th-sm">Наименование</th>
@@ -88,7 +89,8 @@
         </div>
         <div class="collapse mt-2" id="collapseSupplierStaffers">
           {% for staffer in supplier.staffers %}
-            <table class="table table-bordered table-sm table-hover table-vertical table-responsive-lg" cellspacing="0" width="100%">
+            <table class="table table-bordered table-sm table-hover table-vertical table-responsive-lg" cellspacing="0"
+                   width="100%">
               <thead class="thead-dark">
               <tr>
                 <th>{{ staffer.name }}</th>
@@ -128,7 +130,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="container-fluid">
@@ -144,8 +145,57 @@
           </a>
         </div>
         <div class="collapse show mt-2" id="collapseSupplierProducts">
-          {{ include('product/list_block.html.twig')}}
+          {{ include('product/list_block.html.twig') }}
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 d-flex justify-content-center">
+
+
+        <div class="card">
+          <div class="card-header">
+            Импорт товаров
+          </div>
+          <div class="card-body">
+            <a class="btn btn-primary mb-3" href="{{ absolute_url(asset('files/productImport.xlsx')) }}" download="">
+              <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+              Шаблон
+            </a>
+
+            {{ form_start(importForm) }}
+
+            <div class="form-group">
+              <div class="custom-file">
+                {{ form_widget(importForm.file) }}
+                <label class="custom-file-label" for="customFile" data-browse=".xlsx">Выберите файл</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Импорт</button>
+            {{ form_end(importForm) }}
+
+
+            {#            <form action="" method="post" enctype="multipart/form-data">#}
+            {#              <div class="form-group">#}
+            {#                <div class="custom-file">#}
+            {#                  <input type="file" class="custom-file-input" id="customFile" name="file"#}
+            {#                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">#}
+            {#                  <label class="custom-file-label" for="customFile" data-browse=".xlsx">Выберите файл</label>#}
+            {#                </div>#}
+            {#              </div>#}
+            {#              <input type="number" value="{{ supplier.id }}" name="supplier_id" hidden>#}
+            {#              <div class="form-group text-center">#}
+            {#                <button class="btn btn-success" type="submit">Импорт</button>#}
+            {#              </div>#}
+            {#            </form>#}
+          </div>
+        </div>
+
+
       </div>
     </div>
   </div>

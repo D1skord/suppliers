@@ -12,9 +12,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     public static $rolesAssoc = [
-        'admin' => 'Администратор',
-        'manager_sale' => 'Менеджер по продажам',
-        'manager_buy' => 'Менеджер по закупкам'
+        'ROLE_ADMIN' => 'Администратор',
+        'ROLE_MANAGER_SALE' => 'Менеджер по продажам',
+        'ROLE_MANAGER_BUY' => 'Менеджер по закупкам'
     ];
 
     /**

@@ -18,34 +18,14 @@ class SupplierProduct
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SupplierProductRoot")
+     * @ORM\Column(type="string")
      */
-    private $root;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $containerSize;
+    private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SupplierProductType")
      */
     private $type;
-
-    /**
-     * @ManyToOne(targetEntity="Supplier", inversedBy="products")
-     */
-    private $supplier;
-
-    /**
-     * @ORM\Column(type="date", nullable=false)
-     */
-    private $date;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -87,10 +67,33 @@ class SupplierProduct
      */
     private $comment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="SupplierProductRoot")
+     */
+    private $root;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $containerSize;
+
+
+    /**
+     * @ManyToOne(targetEntity="Supplier", inversedBy="products")
+     */
+    private $supplier;
+
+    /**
+     * @ORM\Column(type="date", nullable=false)
+     */
+    private $date;
+
+
     public function __construct()
     {
         $this->setDate(new \DateTime());
     }
+
 
     public function getId(): ?int
     {

@@ -35,5 +35,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/suppliers , roles: [ROLE_ADMIN, ROLE_MANAGER_BUY]}
+        - { path: ^/products , roles: [ROLE_ADMIN, ROLE_MANAGER_BUY, ROLE_MANAGER_SALE]}
+        - { path: ^/products/roots , roles: [ROLE_ADMIN]}
+        - { path: ^/products/types , roles: [ROLE_ADMIN]}
+        - { path: ^/regions , allow_if: "has_role('ROLE_ADMIN')"}
+        - { path: ^/requests , roles: [ROLE_ADMIN, ROLE_MANAGER_BUY, ROLE_MANAGER_SALE]}
+        - { path: ^/cart , allow_if: "has_role('ROLE_MANAGER_SALE')"}
+        - { path: ^/users , allow_if: "has_role('ROLE_ADMIN')"}
+
