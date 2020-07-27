@@ -88,9 +88,26 @@ $(function () {
         "lengthMenu": "Показывать _MENU_ записей",
         "loadingRecords": "Загрузка...",
         "processing": "Обработка...",
-        "search": "Поиск:",
+        "search": "Общий фильтр:",
         "zeroRecords": "Данные не найдены"
     };
+
+
+
+    //
+    // $('#productsPageTable tfoot tr th').each(function () {
+    //
+    //     var title = $('#productsPageTable thead tr th').eq($(this).index()).text();
+    //     $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+    // });
+    // var productsPageTable = $('#productsPageTable').DataTable();
+    // productsPageTable.columns().eq(0).each(function (colIdx) {
+    //     $('input', productsPageTable.column(colIdx).footer()).on('keyup change', function () {
+    //         productsPageTable.column(colIdx).search(this.value).draw();
+    //     });
+    // });
+
+
 
 
     // Таблица товаров
@@ -121,7 +138,7 @@ $(function () {
     $('.dataTables_length').addClass('bs-select');
 
     // Таблица товаров на странице товаров
-    $('#productsPageTable').DataTable({
+    var productsPageTable = $('#productsPageTable').DataTable({
         "language": dataTableLang,
         "bFilter": true,
         "oSearch": {"bSmart": false, "bRegex": true},
@@ -147,6 +164,25 @@ $(function () {
 
     });
     $('.dataTables_length').addClass('bs-select');
+
+
+
+
+
+    $('#searchByIdInput').on('keyup change', function () {
+        productsPageTable.column(1).search(this.value).draw();
+    });
+    $('#searchByNameInput').on('keyup change', function () {
+        productsPageTable.column(2).search(this.value).draw();
+    });
+    $('#searchByRootInput').on('keyup change', function () {
+        productsPageTable.column(3).search(this.value).draw();
+    });
+    $('#searchByTypeInput').on('keyup change', function () {
+        productsPageTable.column(4).search(this.value).draw();
+    });
+
+
 
     var fixNewLine = {
         exportOptions: {
@@ -182,151 +218,6 @@ $(function () {
 
         return html;
     }
-
-    $(document).ready(function () {
-        var table = $('#example').DataTable({
-            dom: 'Btirp',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: 'Excel',
-                    exportOptions: {
-                        format: {
-                            body: function (data, row, column, node) {
-
-                                //need to change double quotes to single
-                                data = data.replace(/"/g, "'");
-
-                                // replace p with br
-                                data = data.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '<br>');
-
-                                // replace div with br
-                                data = data.replace(/<div[^>]*>/g, '').replace(/<\/div>/g, '<br>');
-
-                                data = remove_tags(data);
-
-
-
-                                //split at each new line
-                                let splitData = data.split('<br>');
-
-                                //remove empty string
-                                splitData = splitData.filter(function (v) {
-                                    return v !== ''
-                                });
-
-                                data = '';
-                                for (let i = 0; i < splitData.length; i++) {
-                                    //add escaped double quotes around each line
-                                    data += '\"' + splitData[i] + '\"';
-                                    //if its not the last line add CHAR(13)
-                                    if (i + 1 < splitData.length) {
-                                        data += ', CHAR(10), ';
-                                    }
-                                }
-
-                                //Add concat function
-                                data = 'CONCATENATE(' + data + ')';
-                                return data;
-
-                            }
-                        }
-                    },
-                    customize: function (xlsx) {
-
-                        var sSh = xlsx.xl['styles.xml'];
-
-                        var styleSheet = sSh.childNodes[0];
-
-                        let cellXfs = styleSheet.childNodes[5];
-
-                        // Using this instead of "" (required for Excel 2007+, not for 2003)
-                        var ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-
-                        // Create a custom style
-                        var lastStyleNum = $('cellXfs xf', sSh).length - 1;
-                        var wrappedTopIndex = lastStyleNum + 1;
-                        var newStyle = document.createElementNS(ns, "xf");
-                        // Customize style
-                        newStyle.setAttribute("numFmtId", 0);
-                        newStyle.setAttribute("fontId", 0);
-                        newStyle.setAttribute("fillId", 0);
-                        newStyle.setAttribute("borderId", 0);
-                        newStyle.setAttribute("applyFont", 1);
-                        newStyle.setAttribute("applyFill", 1);
-                        newStyle.setAttribute("applyBorder", 1);
-                        newStyle.setAttribute("xfId", 0);
-                        // Alignment (optional)
-                        var align = document.createElementNS(ns, "alignment");
-                        align.setAttribute("vertical", "top");
-                        align.setAttribute("wrapText", 1);
-                        newStyle.appendChild(align);
-                        // Append the style next to the other ones
-                        cellXfs.appendChild(newStyle);
-
-
-
-
-                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-                        var firstExcelRow = 3;
-
-                        table.rows({order: 'applied', search: 'applied'}).every(function (rowIdx, tableLoop, rowLoop) {
-
-                            var node = this.node();
-
-                            var num_colonne = $(node).find("td").length;
-
-                            // the cell with biggest number of line inside it determine the height of entire row
-                            var maxCountLinesRow = 1;
-
-
-                            for (var indexCol = 1; indexCol <= num_colonne; indexCol++) {
-
-                                var letterExcel = columnToLetter(indexCol);
-
-                                $('c[r=' + letterExcel + (firstExcelRow + rowLoop) + ']', sheet).each(function (e) {
-
-
-
-                                    // how many lines are present in this cell?
-                                    var countLines = ($('is t', this).text().match(/\"/g) || []).length / 2;
-
-                                    if (countLines > maxCountLinesRow) {
-                                        maxCountLinesRow = countLines;
-                                    }
-
-                                    if ($('is t', this).text()) {
-                                        //wrap text top vertical top
-                                        $(this).attr('s', wrappedTopIndex);
-
-                                        //change the type to `str` which is a formula
-                                        $(this).attr('t', 'str');
-                                        //append the concat formula
-                                        $(this).append('<f>' + $('is t', this).text() + '</f>');
-                                        //remove the inlineStr
-                                        $('is', this).remove();
-                                    }
-
-                                });
-
-                                $('row:nth-child(' + (firstExcelRow + rowLoop) + ')', sheet).attr('ht', maxCountLinesRow * 26);
-                                $('row:nth-child(' + (firstExcelRow + rowLoop) + ')', sheet).attr('customHeight', 1);
-
-                            }
-
-                        });
-
-
-
-                    }
-
-                }
-                ]
-
-        });
-
-    });
 
 
 
