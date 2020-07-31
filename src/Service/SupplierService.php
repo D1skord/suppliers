@@ -34,7 +34,7 @@ class SupplierService
         // Получаем строки excel файла
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filePath);
         $worksheet = $spreadsheet->getActiveSheet();
-
+        $supplier = $this->em->getRepository(Supplier::class)->find($supplierId);
         foreach ($worksheet->getRowIterator() as $rowNum => $row) {
             if ($rowNum == 1) {
                 continue;
@@ -51,10 +51,8 @@ class SupplierService
             $product = new SupplierProduct();
 
             // Записываем значения в товар
-            $supplier = $this->em->getRepository(Supplier::class)->find($supplierId);
             $product->setSupplier($supplier);
             $product->setName($cells[0] ?? 0);
-
 
             $root = $this->em->getRepository(SupplierProductRoot::class)->findOneBy(['name' => $cells[1]]);
             $product->setRoot($root ?? 0);
@@ -76,7 +74,8 @@ class SupplierService
             $product->setComment($cells[11] ?? 0);
 
             $this->em->persist($product);
-            $this->em->flush();
+
         }
+        $this->em->flush();
     }
 }
