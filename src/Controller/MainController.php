@@ -181,7 +181,12 @@ class MainController extends AbstractController
 
 
         $supplierProductLast = $this->getDoctrine()->getRepository(SupplierProduct::class)->findLast();
-        $supplierProduct = clone $supplierProductLast;
+        if (!empty($supplierProductLast)) {
+            $supplierProduct = clone $supplierProductLast;
+        } else {
+            $supplierProduct = new SupplierProduct();
+        }
+
 
         $addSupplierProductForm = $this->createForm(AddSupplierProductFormType::class, $supplierProduct);
         $addSupplierProductForm->handleRequest($request);

@@ -33,7 +33,7 @@
           {% for supplier in suppliers %}
             <tr>
               <td><a href="{{ path('supplier_view', {'id': supplier.id}) }}">{{ supplier.name }}</a></td>
-              <td>region</td>
+              <td>{{ supplier.region.name }}</td>
               <td>{{ supplier.address }}</td>
               <td>{{ supplier.distance }}</td>
               <td>{{ supplier.products|length }}</td>
