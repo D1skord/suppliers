@@ -38,7 +38,7 @@ class AddSupplierStufferFormType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'required' => true,
+                'required' => false,
                 'row_attr' => [
                     'class' => 'form-group',
                     'type' => 'email'

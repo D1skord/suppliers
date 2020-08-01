@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity()
- * @UniqueEntity(fields={"email"}, message="Контактное лицо с таким email уже зарегистрировано!")
  */
 class SupplierStaffer
 {
@@ -35,7 +34,7 @@ class SupplierStaffer
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, nullable=true)
      */
     protected $email;
 
