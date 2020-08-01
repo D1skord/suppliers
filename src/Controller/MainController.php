@@ -304,7 +304,7 @@ class MainController extends AbstractController
      * @param int $id - id контактного лица
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
-     * @Route("/staffer/{id]/remove", name="supplier_staffer_remove")
+     * @Route("/staffer/{id}/remove", name="supplier_staffer_remove")
      */
     public
     function supplierStafferRemove(
