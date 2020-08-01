@@ -62,13 +62,13 @@
 
       <td class="text-left">
         {% if product.diameterBarrel is not empty %}
-          <div class="text-nowrap">Диаметр ствола: {{ product.diameterBarrel }}</div>
+          <div class="text-nowrap"><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/> ствола: {{ product.diameterBarrel }}</div>
         {% endif %}
         {% if product.diameterCrown is not empty %}
-          <div class="text-nowrap">Диаметр кроны: {{ product.diameterCrown }}</div>
+          <div class="text-nowrap"><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/> кроны: {{ product.diameterCrown }}</div>
         {% endif %}
         {% if product.diameterComa is not empty %}
-          <div class="text-nowrap">Диаметр зем. кома: {{ product.diameterComa }}</div>
+          <div class="text-nowrap"><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/> зем. кома: {{ product.diameterComa }}</div>
         {% endif %}
       </td>
       <td>{{ product.comment }}</td>

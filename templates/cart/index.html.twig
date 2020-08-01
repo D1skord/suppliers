@@ -66,13 +66,13 @@
 
               <td>
                 {% if product.diameterBarrel is not empty %}
-                  <p>Диаметр ствола {{ product.diameterBarrel }}</p>
+                  <p>{{ asset('files/diameter-icon.png') }} ствола {{ product.diameterBarrel }}</p>
                 {% endif %}
                 {% if product.diameterCrown is not empty %}
-                  <p>Диаметр кроны {{ product.diameterCrown }}</p>
+                  <p>{{ asset('files/diameter-icon.png') }} кроны {{ product.diameterCrown }}</p>
                 {% endif %}
                 {% if product.diameterComa is not empty %}
-                  <p>Диаметр земляного кома {{ product.diameterComa }}</p>
+                  <p>{{ asset('files/diameter-icon.png') }} земляного кома {{ product.diameterComa }}</p>
                 {% endif %}
               </td>
               <td>{{ product.comment }}</td>
