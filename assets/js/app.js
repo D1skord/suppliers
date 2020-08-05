@@ -469,7 +469,7 @@ $(function () {
     // Очистка формы добавления продукта
     $('#resetSupplierFormBtn').on('click', function (ev) {
         ev.preventDefault()
-        $(this).closest('form').find('input, textarea').val('');
+        $(this).closest('form').find('input[type="text"], textarea').val('');
         $(this).closest('form').find('select').prop("selectedIndex", 0);
     });
 

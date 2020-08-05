@@ -183,6 +183,7 @@ class MainController extends AbstractController
         $supplierProductLast = $this->getDoctrine()->getRepository(SupplierProduct::class)->findLast();
         if (!empty($supplierProductLast)) {
             $supplierProduct = clone $supplierProductLast;
+            $supplierProduct->setSupplier($supplier);
         } else {
             $supplierProduct = new SupplierProduct();
         }
