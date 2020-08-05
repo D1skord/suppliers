@@ -48,6 +48,9 @@ class SupplierService
                 $cells[] = $cell->getValue();
             }
 
+            // Если пустое имя
+            if (empty($cells[0])) continue;
+
             $product = new SupplierProduct();
 
             // Записываем значения в товар
