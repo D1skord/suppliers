@@ -80,6 +80,7 @@ class SupplierProduct
 
     /**
      * @ManyToOne(targetEntity="Supplier", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $supplier;
 

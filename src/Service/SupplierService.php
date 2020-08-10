@@ -63,6 +63,7 @@ class SupplierService
             $product->setContainerSize($cells[2] ?? 0);
 
             $type = $this->em->getRepository(SupplierProductType::class)->findOneBy(['name' => $cells[3]]);
+
             $product->setType($type ?? 0);
 
             $product->setDate(new \DateTime());

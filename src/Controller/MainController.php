@@ -179,7 +179,6 @@ class MainController extends AbstractController
             );
         }
 
-
         $supplierProductLast = $this->getDoctrine()->getRepository(SupplierProduct::class)->findLast();
         if (!empty($supplierProductLast)) {
             $supplierProduct = clone $supplierProductLast;
@@ -187,7 +186,6 @@ class MainController extends AbstractController
         } else {
             $supplierProduct = new SupplierProduct();
         }
-
 
         $addSupplierProductForm = $this->createForm(AddSupplierProductFormType::class, $supplierProduct);
         $addSupplierProductForm->handleRequest($request);
