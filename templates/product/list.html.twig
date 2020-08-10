@@ -58,7 +58,6 @@
         </div>
 
 
-
       </div>
       <div class="col-sm-12">
         <table id="productsPageTable"
@@ -84,65 +83,70 @@
           </thead>
           <tbody>
           {% for product in products %}
-            <tr>
-              <td class="{% if is_granted('ROLE_MANAGER_SALE') %}d-none{% endif %}">
-                <div class="d-flex">
-                  <a href="{{ path('supplier_product_edit', {'supplierId': product.supplier.id, 'productId': product.id}) }}"
-                     class="btn btn-sm btn-warning ml-1"
-                     data-iframe-src="{{ path('supplier_edit', {id: product.supplier.id}) }}">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                  </a>
-                  <a href="{{ path('supplier_product_remove', {id: product.id}) }}"
-                     class="btn btn-sm btn-danger delete-object-btn ml-1">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                  </a>
-                </div>
+            {% if (product.supplier.id is defined) %}
+              <tr>
+                <td class="{% if is_granted('ROLE_MANAGER_SALE') %}d-none{% endif %}">
+                  <div class="d-flex">
+                    <a href="{{ path('supplier_product_edit', {'supplierId': product.supplier.id, 'productId': product.id}) }}"
+                       class="btn btn-sm btn-warning ml-1"
+                       data-iframe-src="{{ path('supplier_edit', {id: product.supplier.id}) }}">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{ path('supplier_product_remove', {id: product.id}) }}"
+                       class="btn btn-sm btn-danger delete-object-btn ml-1">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                  </div>
 
-              </td>
-              <td>{{ product.id }}</td>
-              <td>{{ product.name }}</td>
-              <td>
-                {% if (product.root.name is not empty) %}
-                  {{ product.root.name }}
-                  {% if ((product.containerSize is not empty) and (product.root.name == 'Контейнер')) %}
-                    <div>Размер: {{ product.containerSize }}</div>
+                </td>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>
+                  {% if (product.root.name is not empty) %}
+                    {{ product.root.name }}
+                    {% if ((product.containerSize is not empty) and (product.root.name == 'Контейнер')) %}
+                      <div>Размер: {{ product.containerSize }}</div>
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-              </td>
-              <td>
-                {% if (product.type.name is not empty) %}
-                  {{ product.type.name }}
-                {% endif %}
-              </td>
-              <td>{{ product.date|date("d.m.Y") }}</td>
-              <td>{{ product.height }}</td>
-              <td>{{ product.price|number_format(2, ',', ' ') }}</td>
-              <td>
-                {% if (product.supplier.region.code is defined) %}
-                  {{ product.supplier.region.code }}
-                {% endif %}
-              </td>
-              <td>{{ product.countMin }}</td>
-              <td>{{ product.countMax }}</td>
+                </td>
+                <td>
+                  {% if (product.type.name is not empty) %}
+                    {{ product.type.name }}
+                  {% endif %}
+                </td>
+                <td>{{ product.date|date("d.m.Y") }}</td>
+                <td>{{ product.height }}</td>
+                <td>{{ product.price|number_format(2, ',', ' ') }}</td>
+                <td>
+                  {% if (product.supplier.region.code is defined) %}
+                    {{ product.supplier.region.code }}
+                  {% endif %}
+                </td>
+                <td>{{ product.countMin }}</td>
+                <td>{{ product.countMax }}</td>
 
-              <td>
-                {% if product.diameterBarrel is not empty %}
-                  <div><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/> ствола {{ product.diameterBarrel }}</div>
-                {% endif %}
-                {% if product.diameterCrown is not empty %}
-                  <div><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/> кроны {{ product.diameterCrown }}</div>
-                {% endif %}
-                {% if product.diameterComa is not empty %}
-                  <div><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/> земляного кома {{ product.diameterComa }}</div>
-                {% endif %}
-              </td>
-              <td>{{ product.comment }}</td>
-              <td class="{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER_BUY') %}d-none{% endif %}">
-                <button
-                    class="btn {% if cart[product.id] is defined %}btn-success{% else %}btn-primary{% endif %} btn-product-cart"
-                    data-product-id="{{ product.id }}">{% if cart[product.id] is defined %}Из корзины{% else %}В корзину{% endif %}</button>
-              </td>
-            </tr>
+                <td>
+                  {% if product.diameterBarrel is not empty %}
+                    <div><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/>
+                      ствола {{ product.diameterBarrel }}</div>
+                  {% endif %}
+                  {% if product.diameterCrown is not empty %}
+                    <div><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/>
+                      кроны {{ product.diameterCrown }}</div>
+                  {% endif %}
+                  {% if product.diameterComa is not empty %}
+                    <div><img src="{{ asset('files/diameter-icon.png') }}" class="icon-diameter"/> земляного
+                      кома {{ product.diameterComa }}</div>
+                  {% endif %}
+                </td>
+                <td>{{ product.comment }}</td>
+                <td class="{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER_BUY') %}d-none{% endif %}">
+                  <button
+                      class="btn {% if cart[product.id] is defined %}btn-success{% else %}btn-primary{% endif %} btn-product-cart"
+                      data-product-id="{{ product.id }}">{% if cart[product.id] is defined %}Из корзины{% else %}В корзину{% endif %}</button>
+                </td>
+              </tr>
+            {% endif %}
           {% endfor %}
           </tr>
           </tbody>
