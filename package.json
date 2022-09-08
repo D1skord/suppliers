@@ -25,7 +25,7 @@
         "inputmask": "^5.0.3",
         "jquery": "^3.5.1",
         "js-cookie": "^2.2.1",
-        "jszip": "^3.5.0",
+        "jszip": "^3.7.0",
         "popper.js": "^1.16.1",
       "datatables.net": "latest"
     }
